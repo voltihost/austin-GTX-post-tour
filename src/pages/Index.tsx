@@ -3,28 +3,23 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, MapPin, Users, Star, Phone, DollarSign } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import TeamMember from '@/components/TeamMember';
 import Footer from '@/components/Footer';
+import { teamMembersData, TeamMemberData } from '@/data/teamMembers';
 
 const Index = () => {
-  const [selectedMember, setSelectedMember] = useState<string>('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  const teamMembers = [
-    'Alex Johnson', 'Sarah Miller', 'Mike Davis', 'Emma Wilson',
-    'Chris Brown', 'Jessica Taylor', 'Ryan Martinez', 'Ashley Garcia',
-    'Kevin Rodriguez', 'Amanda Lee', 'Tyler Thompson', 'Megan Clark',
-    'Jordan Lewis', 'Samantha White'
-  ];
+  const [selectedMember, setSelectedMember] = useState<TeamMemberData | null>(null);
 
   const handleCashApp = () => {
     if (!selectedMember) {
       alert('Please select a team member first!');
       return;
     }
-    alert(`To tip ${selectedMember} via CashApp:\n1. Open your CashApp\n2. Search for our team member\n3. Send your tip with a note mentioning "Get Up And Go Kayaking tip"`);
+    if (!selectedMember.cashApp) {
+      alert(`${selectedMember.name} doesn't have a CashApp link available.`);
+      return;
+    }
+    window.open(selectedMember.cashApp, '_blank');
   };
 
   const handleVenmo = () => {
@@ -32,8 +27,23 @@ const Index = () => {
       alert('Please select a team member first!');
       return;
     }
-    const venmoUrl = `venmo://paycharge?txn=pay&note=Tip for ${selectedMember} - Get Up And Go Kayaking`;
-    window.open(venmoUrl, '_blank');
+    if (!selectedMember.venmo) {
+      alert(`${selectedMember.name} doesn't have a Venmo link available.`);
+      return;
+    }
+    window.open(selectedMember.venmo, '_blank');
+  };
+
+  const handlePayPal = () => {
+    if (!selectedMember) {
+      alert('Please select a team member first!');
+      return;
+    }
+    if (!selectedMember.paypal) {
+      alert(`${selectedMember.name} doesn't have a PayPal link available.`);
+      return;
+    }
+    window.open(selectedMember.paypal, '_blank');
   };
 
   const handleZelle = () => {
@@ -41,15 +51,20 @@ const Index = () => {
       alert('Please select a team member first!');
       return;
     }
-    if (!phoneNumber) {
-      alert('Please enter a phone number for Zelle!');
+    if (!selectedMember.zelle) {
+      alert(`${selectedMember.name} doesn't have a Zelle number available.`);
       return;
     }
-    alert(`To tip ${selectedMember} via Zelle:\n1. Open your banking app\n2. Go to Zelle\n3. Send to: ${phoneNumber}\n4. Add note: "Tip for ${selectedMember} - Get Up And Go Kayaking"`);
+    alert(`To tip ${selectedMember.name} via Zelle:\n1. Open your banking app\n2. Go to Zelle\n3. Send to: ${selectedMember.zelle}\n4. Add note: "Tip for ${selectedMember.name} - Get Up And Go Kayaking"`);
   };
 
   const handleTripAdvisor = () => {
-    window.open('https://www.tripadvisor.com/Attraction_Review-g30196-d23509394-Reviews-Get_Up_and_Go_Kayaking-Austin_Texas.html', '_blank');
+    if (!selectedMember) {
+      alert('Please select a team member first!');
+      return;
+    }
+    const tripAdvisorUrl = selectedMember.tripadvisor || 'https://www.tripadvisor.com/Attraction_Review-g30196-d27967059-Reviews-Get_Up_and_Go_Kayaking_Austin_Texas_ATX-Austin_Texas.html';
+    window.open(tripAdvisorUrl, '_blank');
   };
 
   return (
@@ -145,16 +160,16 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 gap-3 max-h-96 overflow-y-auto">
-                  {teamMembers.map((member, index) => (
-                    <div key={member} className="flex items-center gap-4 p-3 rounded-lg hover:bg-blue-50 transition-colors">
+                  {teamMembersData.map((member, index) => (
+                    <div key={member.name} className="flex items-center gap-4 p-3 rounded-lg hover:bg-blue-50 transition-colors">
                       <img 
                         src={`https://images.unsplash.com/photo-${1500000000000 + index * 1000000}-woman-wearing-blue-jacket-sitting-on-chair?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80`}
-                        alt={member}
+                        alt={member.name}
                         className="w-12 h-12 rounded-full object-cover border-2 border-blue-300"
                       />
                       <TeamMember
-                        name={member}
-                        isSelected={selectedMember === member}
+                        name={member.name}
+                        isSelected={selectedMember?.name === member.name}
                         onSelect={() => setSelectedMember(member)}
                       />
                     </div>
@@ -163,7 +178,7 @@ const Index = () => {
                 {selectedMember && (
                   <div className="mt-6 p-4 bg-blue-50 border-2 border-blue-300 rounded-lg">
                     <p className="text-blue-800 font-bold text-lg">
-                      ✅ Selected: {selectedMember}
+                      ✅ Selected: {selectedMember.name}
                     </p>
                   </div>
                 )}
@@ -183,7 +198,7 @@ const Index = () => {
                   <Button
                     onClick={handleCashApp}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 text-lg font-bold border-2 border-blue-600 hover:border-blue-700 rounded-lg"
-                    disabled={!selectedMember}
+                    disabled={!selectedMember || !selectedMember.cashApp}
                   >
                     <DollarSign className="w-6 h-6 mr-3" />
                     Tip via CashApp
@@ -192,33 +207,30 @@ const Index = () => {
                   <Button
                     onClick={handleVenmo}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 text-lg font-bold border-2 border-blue-600 hover:border-blue-700 rounded-lg"
-                    disabled={!selectedMember}
+                    disabled={!selectedMember || !selectedMember.venmo}
                   >
                     <DollarSign className="w-6 h-6 mr-3" />
                     Tip via Venmo
                   </Button>
 
-                  <div className="space-y-3">
-                    <Label htmlFor="phone" className="text-sm font-bold text-blue-900">
-                      Phone Number for Zelle
-                    </Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="Enter your phone number"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="w-full border-2 border-blue-200 focus:border-blue-500 rounded-lg"
-                    />
+                  {selectedMember?.paypal && (
                     <Button
-                      onClick={handleZelle}
+                      onClick={handlePayPal}
                       className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 text-lg font-bold border-2 border-blue-600 hover:border-blue-700 rounded-lg"
-                      disabled={!selectedMember || !phoneNumber}
                     >
-                      <Phone className="w-6 h-6 mr-3" />
-                      Tip via Zelle
+                      <DollarSign className="w-6 h-6 mr-3" />
+                      Tip via PayPal
                     </Button>
-                  </div>
+                  )}
+
+                  <Button
+                    onClick={handleZelle}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 text-lg font-bold border-2 border-blue-600 hover:border-blue-700 rounded-lg"
+                    disabled={!selectedMember || !selectedMember.zelle}
+                  >
+                    <Phone className="w-6 h-6 mr-3" />
+                    Tip via Zelle
+                  </Button>
                 </CardContent>
               </Card>
 

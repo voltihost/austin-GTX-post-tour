@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="bg-black py-4">
       <div className="container mx-auto px-4 text-center">
         <img 
-          src="/lovable-uploads/6c1ac31c-5589-4f43-892c-3983a368f7f0.png" 
+          src="/lovable-uploads/f59e6a8a-668d-4041-8b5f-4917ecbc681e.png" 
           alt="Powered by Voltihost" 
           className="mx-auto h-12"
         />
