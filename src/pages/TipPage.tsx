@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import TeamMember from '@/components/TeamMember';
+import Footer from '@/components/Footer';
 
 const TipPage = () => {
   const [selectedMember, setSelectedMember] = useState<string>('');
@@ -185,6 +186,7 @@ const TipPage = () => {
           </p>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

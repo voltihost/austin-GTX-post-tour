@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, MapPin, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
@@ -56,6 +57,7 @@ const Index = () => {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
