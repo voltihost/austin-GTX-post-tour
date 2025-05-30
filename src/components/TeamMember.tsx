@@ -13,7 +13,7 @@ const TeamMember = ({ name, isSelected, onSelect }: TeamMemberProps) => {
   return (
     <Button
       variant={isSelected ? "default" : "outline"}
-      className={`w-full justify-start text-left p-4 h-auto ${
+      className={`flex-1 justify-start text-left p-3 h-auto ${
         isSelected 
           ? "bg-blue-600 hover:bg-blue-700 text-white border-blue-600" 
           : "hover:bg-blue-50 border-blue-200 text-blue-900"
@@ -21,7 +21,7 @@ const TeamMember = ({ name, isSelected, onSelect }: TeamMemberProps) => {
       onClick={onSelect}
     >
       <User className="w-4 h-4 mr-3 flex-shrink-0" />
-      <span className="font-medium">{name}</span>
+      <span className="font-semibold">{name}</span>
     </Button>
   );
 };
