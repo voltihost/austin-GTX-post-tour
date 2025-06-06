@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom kayaking theme colors
+				'water-primary': 'hsl(var(--water-primary))',
+				'water-light': 'hsl(var(--water-light))',
+				'water-medium': 'hsl(var(--water-medium))',
+				'water-deep': 'hsl(var(--water-deep))',
+				'coral': 'hsl(var(--coral))',
+				'sunshine': 'hsl(var(--sunshine))',
+				'forest': 'hsl(var(--forest))',
+				'purple-accent': 'hsl(var(--purple-accent))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

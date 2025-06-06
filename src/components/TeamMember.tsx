@@ -15,8 +15,8 @@ const TeamMember = ({ name, isSelected, onSelect }: TeamMemberProps) => {
       variant={isSelected ? "default" : "outline"}
       className={`flex-1 justify-start text-left p-3 h-auto ${
         isSelected 
-          ? "bg-blue-600 hover:bg-blue-700 text-white border-blue-600" 
-          : "hover:bg-blue-50 border-blue-200 text-blue-900"
+          ? "bg-water-primary hover:bg-water-deep text-white border-water-primary" 
+          : "hover:bg-sunshine/20 border-water-light text-forest"
       }`}
       onClick={onSelect}
     >
