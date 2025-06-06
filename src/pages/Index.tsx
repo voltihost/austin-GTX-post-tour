@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, MapPin, Users, Star, Phone, DollarSign } from 'lucide-react';
@@ -11,50 +10,22 @@ const Index = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMemberData | null>(null);
 
   const handleCashApp = () => {
-    if (!selectedMember) {
-      alert('Please select a team member first!');
-      return;
-    }
-    if (!selectedMember.cashApp) {
-      alert(`${selectedMember.name} doesn't have a CashApp link available.`);
-      return;
-    }
+    if (!selectedMember || !selectedMember.cashApp) return;
     window.open(selectedMember.cashApp, '_blank');
   };
 
   const handleVenmo = () => {
-    if (!selectedMember) {
-      alert('Please select a team member first!');
-      return;
-    }
-    if (!selectedMember.venmo) {
-      alert(`${selectedMember.name} doesn't have a Venmo link available.`);
-      return;
-    }
+    if (!selectedMember || !selectedMember.venmo) return;
     window.open(selectedMember.venmo, '_blank');
   };
 
   const handlePayPal = () => {
-    if (!selectedMember) {
-      alert('Please select a team member first!');
-      return;
-    }
-    if (!selectedMember.paypal) {
-      alert(`${selectedMember.name} doesn't have a PayPal link available.`);
-      return;
-    }
+    if (!selectedMember || !selectedMember.paypal) return;
     window.open(selectedMember.paypal, '_blank');
   };
 
   const handleZelle = () => {
-    if (!selectedMember) {
-      alert('Please select a team member first!');
-      return;
-    }
-    if (!selectedMember.zelle) {
-      alert(`${selectedMember.name} doesn't have a Zelle number available.`);
-      return;
-    }
+    if (!selectedMember || !selectedMember.zelle) return;
     alert(`To tip ${selectedMember.name} via Zelle:\n1. Open your banking app\n2. Go to Zelle\n3. Send to: ${selectedMember.zelle}\n4. Add note: "Tip for ${selectedMember.name} - Get Up And Go Kayaking"`);
   };
 
@@ -191,27 +162,38 @@ const Index = () => {
                 <CardHeader>
                   <CardTitle className="text-forest text-2xl">Send a Tip 💝</CardTitle>
                   <CardDescription className="text-forest text-lg">
-                    Choose your preferred payment method
+                    {selectedMember 
+                      ? `Choose your preferred payment method for ${selectedMember.name}`
+                      : "Select a team member first to see available payment options"
+                    }
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button
-                    onClick={handleCashApp}
-                    className="w-full bg-water-primary hover:bg-water-deep text-white py-6 text-lg font-bold border-2 border-water-primary hover:border-water-deep rounded-lg"
-                    disabled={!selectedMember || !selectedMember.cashApp}
-                  >
-                    <DollarSign className="w-6 h-6 mr-3" />
-                    Tip via CashApp
-                  </Button>
+                  {!selectedMember && (
+                    <p className="text-forest text-center py-8 font-medium">
+                      Please select a team member above to see their available payment options.
+                    </p>
+                  )}
 
-                  <Button
-                    onClick={handleVenmo}
-                    className="w-full bg-water-primary hover:bg-water-deep text-white py-6 text-lg font-bold border-2 border-water-primary hover:border-water-deep rounded-lg"
-                    disabled={!selectedMember || !selectedMember.venmo}
-                  >
-                    <DollarSign className="w-6 h-6 mr-3" />
-                    Tip via Venmo
-                  </Button>
+                  {selectedMember?.cashApp && (
+                    <Button
+                      onClick={handleCashApp}
+                      className="w-full bg-water-primary hover:bg-water-deep text-white py-6 text-lg font-bold border-2 border-water-primary hover:border-water-deep rounded-lg"
+                    >
+                      <DollarSign className="w-6 h-6 mr-3" />
+                      Tip via CashApp
+                    </Button>
+                  )}
+
+                  {selectedMember?.venmo && (
+                    <Button
+                      onClick={handleVenmo}
+                      className="w-full bg-water-primary hover:bg-water-deep text-white py-6 text-lg font-bold border-2 border-water-primary hover:border-water-deep rounded-lg"
+                    >
+                      <DollarSign className="w-6 h-6 mr-3" />
+                      Tip via Venmo
+                    </Button>
+                  )}
 
                   {selectedMember?.paypal && (
                     <Button
@@ -223,14 +205,21 @@ const Index = () => {
                     </Button>
                   )}
 
-                  <Button
-                    onClick={handleZelle}
-                    className="w-full bg-coral hover:bg-coral/80 text-white py-6 text-lg font-bold border-2 border-coral rounded-lg"
-                    disabled={!selectedMember || !selectedMember.zelle}
-                  >
-                    <Phone className="w-6 h-6 mr-3" />
-                    Tip via Zelle
-                  </Button>
+                  {selectedMember?.zelle && (
+                    <Button
+                      onClick={handleZelle}
+                      className="w-full bg-coral hover:bg-coral/80 text-white py-6 text-lg font-bold border-2 border-coral rounded-lg"
+                    >
+                      <Phone className="w-6 h-6 mr-3" />
+                      Tip via Zelle
+                    </Button>
+                  )}
+
+                  {selectedMember && !selectedMember.cashApp && !selectedMember.venmo && !selectedMember.paypal && !selectedMember.zelle && (
+                    <p className="text-forest text-center py-4 font-medium">
+                      No payment options are currently available for {selectedMember.name}.
+                    </p>
+                  )}
                 </CardContent>
               </Card>
 
