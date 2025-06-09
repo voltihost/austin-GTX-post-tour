@@ -42,14 +42,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-water-deep via-water-primary to-water-light">
-      {/* Header with Cropped Logo */}
+      {/* Header with Logo */}
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-6">
             <img 
-              src="/lovable-uploads/f59e6a8a-668d-4041-8b5f-4917ecbc681e.png" 
+              src="/lovable-uploads/aed684a8-b5d5-4277-80ea-16536387772e.png" 
               alt="Get Up And Go Kayaking Logo" 
-              className="h-32 w-auto drop-shadow-2xl"
+              className="h-48 w-auto drop-shadow-2xl"
             />
           </div>
           <p className="text-xl text-sunshine font-medium">
@@ -217,8 +217,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 };
