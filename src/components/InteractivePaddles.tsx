@@ -1,20 +1,35 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const InteractivePaddles = () => {
   const [isJumping, setIsJumping] = useState(false);
   const [clickCount, setClickCount] = useState(0);
+  const [position, setPosition] = useState(50); // percentage from bottom
+  const [velocity, setVelocity] = useState(0);
+
+  // Gravity and physics
+  useEffect(() => {
+    const gameLoop = setInterval(() => {
+      setPosition(prev => {
+        const newPos = Math.max(5, Math.min(95, prev + velocity));
+        return newPos;
+      });
+      
+      setVelocity(prev => prev - 0.8); // gravity pulls down
+    }, 50);
+
+    return () => clearInterval(gameLoop);
+  }, [velocity]);
 
   const handlePaddlesClick = () => {
-    if (isJumping) return;
-    
     setIsJumping(true);
     setClickCount(prev => prev + 1);
+    setVelocity(4); // flap up with force
     
-    // Reset animation after it completes
+    // Reset jump animation
     setTimeout(() => {
       setIsJumping(false);
-    }, 600);
+    }, 200);
   };
 
   const getRandomMessage = () => {
@@ -29,36 +44,45 @@ const InteractivePaddles = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 pointer-events-none">
+    <div className="fixed bottom-0 right-4 z-50 pointer-events-none h-screen w-20">
       {/* Speech bubble that appears after clicking */}
       {clickCount > 0 && (
-        <div className="absolute bottom-28 md:bottom-24 right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-2 max-w-[200px] md:max-w-xs animate-fade-in">
+        <div 
+          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-2 max-w-[180px] md:max-w-xs animate-fade-in"
+          style={{ bottom: `${position + 15}%` }}
+        >
           <p className="text-forest text-xs md:text-sm font-medium">{getRandomMessage()}</p>
-          <div className="absolute bottom-0 right-4 md:right-6 w-0 h-0 border-l-4 md:border-l-8 border-r-4 md:border-r-8 border-t-4 md:border-t-8 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
+          <div className="absolute bottom-0 right-4 md:right-6 w-0 h-0 border-l-4 md:border-l-6 border-r-4 md:border-r-6 border-t-4 md:border-t-6 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
         </div>
       )}
       
-      {/* Interactive Paddles with new image and better visibility */}
+      {/* Interactive Paddles with flappy bird physics */}
       <div 
         onClick={handlePaddlesClick}
-        className={`cursor-pointer transition-all duration-300 hover:scale-110 pointer-events-auto ${
+        className={`absolute right-0 cursor-pointer transition-all duration-200 hover:scale-110 pointer-events-auto ${
           isJumping ? 'animate-bounce' : ''
         }`}
-        title="Click me! 🦆"
+        style={{ bottom: `${position}%` }}
+        title="Click me to fly! 🦆"
       >
         <img 
           src="/lovable-uploads/570f20a8-66f4-4062-bdd0-e6d298e7333c.png"
-          alt="Paddles the Duck - Click for environmental tips!"
-          className="w-20 h-20 md:w-28 md:h-28 drop-shadow-2xl"
+          alt="Paddles the Duck - Click to fly!"
+          className="w-12 h-12 md:w-16 md:h-16 drop-shadow-xl"
           style={{
-            filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.4))'
+            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
+            transform: velocity > 0 ? 'rotate(-10deg)' : velocity < -2 ? 'rotate(10deg)' : 'rotate(0deg)',
+            transition: 'transform 0.2s ease-out'
           }}
         />
       </div>
       
       {/* Environmental tip counter */}
       {clickCount >= 3 && (
-        <div className="absolute -top-2 -left-2 bg-coral text-white rounded-full w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-xs font-bold animate-pulse pointer-events-none">
+        <div 
+          className="absolute right-0 bg-coral text-white rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center text-xs font-bold animate-pulse pointer-events-none"
+          style={{ bottom: `${position + 12}%`, transform: 'translateX(8px)' }}
+        >
           {clickCount}
         </div>
       )}
