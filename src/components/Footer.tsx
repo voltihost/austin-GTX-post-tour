@@ -17,36 +17,38 @@ const Footer = () => {
 
   return (
     <div className="bg-white/95 backdrop-blur-sm border-t border-water-light">
-      {/* Social Media Icons */}
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex justify-center items-center gap-2 mb-3">
-          {socialLinks.map((social) => (
-            <a
-              key={social.name}
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-7 h-7 bg-black hover:bg-gray-800 transition-colors rounded-md flex items-center justify-center group"
-              title={social.name}
-            >
-              {social.icon ? (
-                <social.icon className="w-3.5 h-3.5 text-white group-hover:text-white" />
-              ) : (
-                <span className="text-white text-xs">{social.emoji}</span>
-              )}
-            </a>
-          ))}
+      {/* Social Media Icons with Black Background */}
+      <div className="bg-black">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-center items-center gap-3 mb-0">
+            {socialLinks.map((social) => (
+              <a
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 bg-black hover:bg-gray-800 transition-colors rounded-md flex items-center justify-center group border border-gray-600"
+                title={social.name}
+              >
+                {social.icon ? (
+                  <social.icon className="w-4 h-4 text-white group-hover:text-blue-400" />
+                ) : (
+                  <span className="text-white text-sm group-hover:text-yellow-400">{social.emoji}</span>
+                )}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
       
       {/* Voltihost Footer */}
       <div className="bg-black">
-        <div className="container mx-auto px-4 py-3">
+        <div className="container mx-auto px-4 py-6">
           <div className="flex justify-center items-center">
             <img 
               src="/lovable-uploads/f8374979-d9f6-4165-bc44-d3ff9357ea32.png" 
               alt="Powered by Voltihost" 
-              className="h-28 w-auto"
+              className="h-32 w-auto"
             />
           </div>
         </div>

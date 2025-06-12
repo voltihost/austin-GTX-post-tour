@@ -76,14 +76,11 @@ const InteractivePaddles = () => {
         </div>
       )}
 
-      {/* Speech bubble that appears after clicking - shows longer */}
+      {/* Speech bubble that appears after clicking - stays visible permanently */}
       {clickCount > 0 && (
         <div 
-          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[180px] animate-fade-in pointer-events-none z-50"
-          style={{ 
-            bottom: `${position + 15}%`,
-            animationDuration: '8000ms' // Show for 8 seconds for better readability
-          }}
+          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[180px] z-50 pointer-events-none"
+          style={{ bottom: `${position + 15}%` }}
         >
           <p className="text-forest text-xs md:text-sm font-medium leading-tight">{getRandomMessage()}</p>
           <div className="absolute bottom-0 right-3 md:right-4 w-0 h-0 border-l-2 border-r-2 border-t-2 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
@@ -93,7 +90,7 @@ const InteractivePaddles = () => {
       {/* Interactive Paddle Emoji - Made bigger and more responsive */}
       <div 
         onClick={handlePaddleClick}
-        className={`absolute right-0 cursor-pointer transition-all duration-200 hover:scale-110 pointer-events-auto text-5xl md:text-6xl select-none ${
+        className={`absolute right-0 cursor-pointer transition-all duration-200 hover:scale-110 pointer-events-auto text-6xl md:text-7xl select-none ${
           isJumping ? 'animate-pulse' : ''
         }`}
         style={{ bottom: `${position}%` }}

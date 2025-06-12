@@ -6,11 +6,18 @@ import { Button } from '@/components/ui/button';
 interface ZelleDropdownProps {
   memberName: string;
   zelleNumber: string;
+  onToggle?: (isOpen: boolean) => void;
 }
 
-const ZelleDropdown = ({ memberName, zelleNumber }: ZelleDropdownProps) => {
+const ZelleDropdown = ({ memberName, zelleNumber, onToggle }: ZelleDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const handleToggle = () => {
+    const newState = !isOpen;
+    setIsOpen(newState);
+    onToggle?.(newState);
+  };
 
   const handleCopy = async () => {
     try {
@@ -25,7 +32,7 @@ const ZelleDropdown = ({ memberName, zelleNumber }: ZelleDropdownProps) => {
   return (
     <div className="relative z-50">
       <Button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         className="w-full bg-coral hover:bg-coral/80 text-white py-3 text-sm md:text-base font-bold border border-coral rounded-lg"
       >
         <Phone className="w-4 h-4 mr-2" />

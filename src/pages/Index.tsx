@@ -11,6 +11,7 @@ import { teamMembersData, TeamMemberData } from '@/data/teamMembers';
 
 const Index = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMemberData | null>(null);
+  const [isZelleOpen, setIsZelleOpen] = useState(false);
 
   const handleCashApp = () => {
     if (!selectedMember || !selectedMember.cashApp) return;
@@ -38,6 +39,11 @@ const Index = () => {
 
   const handleLogoClick = () => {
     window.open('https://getupandgokayaking.com/locations/texas/austin/', '_blank');
+  };
+
+  const handlePhotoUpload = () => {
+    // Navigate to photo upload page
+    window.location.href = '/photo-upload';
   };
 
   return (
@@ -167,6 +173,7 @@ const Index = () => {
                     <ZelleDropdown 
                       memberName={selectedMember.name}
                       zelleNumber={selectedMember.zelle}
+                      onToggle={setIsZelleOpen}
                     />
                   )}
 
@@ -178,8 +185,8 @@ const Index = () => {
                 </CardContent>
               </Card>
 
-              {/* TripAdvisor Review */}
-              <Card className="shadow-lg bg-white/95 backdrop-blur-sm border border-water-light">
+              {/* TripAdvisor Review - with dynamic margin when Zelle is open */}
+              <Card className={`shadow-lg bg-white/95 backdrop-blur-sm border border-water-light transition-all duration-300 ${isZelleOpen ? 'mt-32' : ''}`}>
                 <CardHeader className="pb-3">
                   <CardTitle className="flex items-center gap-2 text-forest text-lg md:text-xl">
                     <Star className="w-5 h-5 text-sunshine" />
@@ -189,13 +196,19 @@ const Index = () => {
                     Help others discover our amazing tours!
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-3">
                   <Button
                     onClick={handleTripAdvisor}
                     className="w-full bg-sunshine hover:bg-sunshine/80 text-forest py-3 text-sm md:text-base font-bold border border-sunshine rounded-lg"
                   >
                     <Star className="w-4 h-4 mr-2" />
                     Review us on TripAdvisor ⭐
+                  </Button>
+                  <Button
+                    onClick={handlePhotoUpload}
+                    className="w-full bg-coral hover:bg-coral/80 text-white py-3 text-sm md:text-base font-bold border border-coral rounded-lg"
+                  >
+                    📸 Upload Photo for Instagram Post
                   </Button>
                   <p className="text-xs text-forest mt-2 text-center font-medium">
                     Your feedback helps promote sustainability! 🌟
