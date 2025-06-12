@@ -11,7 +11,6 @@ import { teamMembersData, TeamMemberData } from '@/data/teamMembers';
 
 const Index = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMemberData | null>(null);
-  const [isZelleOpen, setIsZelleOpen] = useState(false);
 
   const handleCashApp = () => {
     if (!selectedMember || !selectedMember.cashApp) return;
@@ -42,14 +41,13 @@ const Index = () => {
   };
 
   const handlePhotoUpload = () => {
-    // Navigate to photo upload page
     window.location.href = '/photo-upload';
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-water-deep via-water-primary to-water-light">
       {/* Header with Logo */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="w-full max-w-7xl mx-auto px-4 py-6">
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-4">
             <img 
@@ -70,7 +68,7 @@ const Index = () => {
 
       {/* Tipping Section */}
       <div className="bg-gradient-to-r from-forest to-water-deep py-8">
-        <div className="max-w-5xl mx-auto px-4">
+        <div className="w-full max-w-7xl mx-auto px-4">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Heart className="text-sunshine w-6 h-6 md:w-8 md:h-8" />
@@ -81,7 +79,7 @@ const Index = () => {
             <p className="text-water-light text-sm md:text-base">Show appreciation to our incredible team!</p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="grid lg:grid-cols-2 gap-8">
             {/* Team Member Selection */}
             <Card className="shadow-lg bg-white/95 backdrop-blur-sm border border-water-light">
               <CardHeader className="pb-3">
@@ -94,13 +92,13 @@ const Index = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 gap-2 max-h-60 md:max-h-80 overflow-y-auto">
+                <div className="grid grid-cols-1 gap-3 max-h-72 md:max-h-96 overflow-y-auto">
                   {teamMembersData.map((member, index) => (
-                    <div key={member.name} className="flex items-center gap-3 p-2 rounded-lg hover:bg-sunshine/20 transition-colors">
+                    <div key={member.name} className="flex items-center gap-3 p-3 rounded-lg hover:bg-sunshine/20 transition-colors">
                       <img 
                         src={member.imageUrl || `https://images.unsplash.com/photo-${1500000000000 + index * 1000000}-woman-wearing-blue-jacket-sitting-on-chair?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80`}
                         alt={member.name}
-                        className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-water-primary flex-shrink-0"
+                        className="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-water-primary flex-shrink-0"
                       />
                       <TeamMember
                         name={member.name}
@@ -111,7 +109,7 @@ const Index = () => {
                   ))}
                 </div>
                 {selectedMember && (
-                  <div className="mt-3 p-3 bg-sunshine/20 border border-sunshine rounded-lg">
+                  <div className="mt-4 p-4 bg-sunshine/20 border border-sunshine rounded-lg">
                     <p className="text-forest font-bold text-sm md:text-base">
                       ✅ Selected: {selectedMember.name}
                     </p>
@@ -121,7 +119,7 @@ const Index = () => {
             </Card>
 
             {/* Payment Methods */}
-            <div className="space-y-4">
+            <div className="space-y-6">
               <Card className="shadow-lg bg-white/95 backdrop-blur-sm border border-water-light">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-forest text-lg md:text-xl">Send a Tip 💝</CardTitle>
@@ -132,7 +130,7 @@ const Index = () => {
                     }
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-4">
                   {!selectedMember && (
                     <p className="text-forest text-center py-4 font-medium text-sm">
                       Please select a team member above.
@@ -173,7 +171,6 @@ const Index = () => {
                     <ZelleDropdown 
                       memberName={selectedMember.name}
                       zelleNumber={selectedMember.zelle}
-                      onToggle={setIsZelleOpen}
                     />
                   )}
 
@@ -185,8 +182,8 @@ const Index = () => {
                 </CardContent>
               </Card>
 
-              {/* TripAdvisor Review - with dynamic margin when Zelle is open */}
-              <Card className={`shadow-lg bg-white/95 backdrop-blur-sm border border-water-light transition-all duration-300 ${isZelleOpen ? 'mt-32' : ''}`}>
+              {/* TripAdvisor Review */}
+              <Card className="shadow-lg bg-white/95 backdrop-blur-sm border border-water-light">
                 <CardHeader className="pb-3">
                   <CardTitle className="flex items-center gap-2 text-forest text-lg md:text-xl">
                     <Star className="w-5 h-5 text-sunshine" />
@@ -196,7 +193,7 @@ const Index = () => {
                     Help others discover our amazing tours!
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-4">
                   <Button
                     onClick={handleTripAdvisor}
                     className="w-full bg-sunshine hover:bg-sunshine/80 text-forest py-3 text-sm md:text-base font-bold border border-sunshine rounded-lg"
@@ -219,7 +216,7 @@ const Index = () => {
           </div>
 
           {/* Thank You Message */}
-          <div className="text-center mt-6 p-4 md:p-6 bg-white/90 rounded-xl border border-water-light shadow-lg">
+          <div className="text-center mt-8 p-6 md:p-8 bg-white/90 rounded-xl border border-water-light shadow-lg">
             <h3 className="text-lg md:text-xl font-bold text-forest mb-3">Thank You for Choosing Get Up And Go Kayaking! 🙏</h3>
             <p className="text-forest text-sm md:text-base">
               Your support helps us continue providing unforgettable water adventures while promoting environmental education and conservation in beautiful Austin! 💙
