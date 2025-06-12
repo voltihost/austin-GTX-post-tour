@@ -18,21 +18,21 @@ const Footer = () => {
   return (
     <div className="bg-white/95 backdrop-blur-sm border-t border-water-light">
       {/* Social Media Icons */}
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-center items-center gap-3 mb-4">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex justify-center items-center gap-2 mb-3">
           {socialLinks.map((social) => (
             <a
               key={social.name}
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 bg-forest hover:bg-water-primary transition-colors rounded-lg flex items-center justify-center group"
+              className="w-7 h-7 bg-black hover:bg-gray-800 transition-colors rounded-md flex items-center justify-center group"
               title={social.name}
             >
               {social.icon ? (
-                <social.icon className="w-4 h-4 text-white group-hover:text-white" />
+                <social.icon className="w-3.5 h-3.5 text-white group-hover:text-white" />
               ) : (
-                <span className="text-white text-sm">{social.emoji}</span>
+                <span className="text-white text-xs">{social.emoji}</span>
               )}
             </a>
           ))}
@@ -41,12 +41,12 @@ const Footer = () => {
       
       {/* Voltihost Footer */}
       <div className="bg-black">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex justify-center items-center">
             <img 
               src="/lovable-uploads/f8374979-d9f6-4165-bc44-d3ff9357ea32.png" 
               alt="Powered by Voltihost" 
-              className="h-20 w-auto"
+              className="h-28 w-auto"
             />
           </div>
         </div>
