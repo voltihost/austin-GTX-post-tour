@@ -53,21 +53,21 @@ const InteractivePaddles = () => {
   };
 
   return (
-    <div className="fixed bottom-0 right-4 z-50 pointer-events-none h-screen w-12">
+    <div className="fixed bottom-0 right-4 z-50 pointer-events-none h-screen w-16">
       {/* Motion streaks when jumping */}
       {showStreaks && (
         <div 
-          className="absolute right-1 pointer-events-none"
-          style={{ bottom: `${position + 5}%` }}
+          className="absolute right-2 pointer-events-none"
+          style={{ bottom: `${position + 8}%` }}
         >
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
               className="absolute w-1 bg-sunshine opacity-60 animate-fade-out"
               style={{
-                height: '8px',
-                right: `${6 + i * 3}px`,
-                top: `${i * 2}px`,
+                height: '12px',
+                right: `${8 + i * 4}px`,
+                top: `${i * 3}px`,
                 animationDelay: `${i * 50}ms`,
                 animationDuration: '300ms'
               }}
@@ -76,21 +76,24 @@ const InteractivePaddles = () => {
         </div>
       )}
 
-      {/* Speech bubble that appears after clicking */}
+      {/* Speech bubble that appears after clicking - shows longer */}
       {clickCount > 0 && (
         <div 
-          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-lg border-2 border-sunshine mb-2 max-w-[140px] animate-fade-in"
-          style={{ bottom: `${position + 10}%` }}
+          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[160px] animate-fade-in pointer-events-none"
+          style={{ 
+            bottom: `${position + 12}%`,
+            animationDuration: '5000ms' // Show for 5 seconds
+          }}
         >
-          <p className="text-forest text-xs font-medium">{getRandomMessage()}</p>
-          <div className="absolute bottom-0 right-3 w-0 h-0 border-l-2 border-r-2 border-t-2 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
+          <p className="text-forest text-sm font-medium">{getRandomMessage()}</p>
+          <div className="absolute bottom-0 right-4 w-0 h-0 border-l-2 border-r-2 border-t-2 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
         </div>
       )}
       
-      {/* Interactive Paddle Emoji */}
+      {/* Interactive Paddle Emoji - Made bigger */}
       <div 
         onClick={handlePaddleClick}
-        className={`absolute right-0 cursor-pointer transition-all duration-200 hover:scale-110 pointer-events-auto text-2xl select-none ${
+        className={`absolute right-0 cursor-pointer transition-all duration-200 hover:scale-110 pointer-events-auto text-4xl select-none ${
           isJumping ? 'animate-pulse' : ''
         }`}
         style={{ bottom: `${position}%` }}
@@ -102,8 +105,8 @@ const InteractivePaddles = () => {
       {/* Environmental tip counter */}
       {clickCount >= 3 && (
         <div 
-          className="absolute right-0 bg-coral text-white rounded-full w-4 h-4 flex items-center justify-center text-xs font-bold animate-pulse pointer-events-none"
-          style={{ bottom: `${position + 6}%`, transform: 'translateX(4px)' }}
+          className="absolute right-0 bg-coral text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold animate-pulse pointer-events-none"
+          style={{ bottom: `${position + 8}%`, transform: 'translateX(6px)' }}
         >
           {clickCount}
         </div>

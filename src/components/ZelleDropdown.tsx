@@ -23,7 +23,7 @@ const ZelleDropdown = ({ memberName, zelleNumber }: ZelleDropdownProps) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative z-20">
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full bg-coral hover:bg-coral/80 text-white py-3 text-sm md:text-base font-bold border border-coral rounded-lg"
@@ -33,25 +33,25 @@ const ZelleDropdown = ({ memberName, zelleNumber }: ZelleDropdownProps) => {
       </Button>
       
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 p-4 bg-white border-2 border-coral rounded-lg shadow-lg z-10">
+        <div className="absolute top-full left-0 right-0 mt-2 p-6 bg-white border-2 border-coral rounded-lg shadow-xl z-30 min-w-[280px]">
           <div className="text-center">
-            <p className="text-forest font-bold text-sm mb-2">
+            <p className="text-forest font-bold text-base mb-3">
               Send Zelle to {memberName}:
             </p>
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="bg-coral/10 px-3 py-2 rounded border border-coral text-forest font-mono text-lg">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="bg-coral/10 px-4 py-3 rounded border border-coral text-forest font-mono text-lg min-w-0 flex-1">
                 {zelleNumber}
               </span>
               <Button
                 onClick={handleCopy}
                 size="sm"
                 variant="outline"
-                className="border-coral text-coral hover:bg-coral hover:text-white"
+                className="border-coral text-coral hover:bg-coral hover:text-white flex-shrink-0"
               >
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
               </Button>
             </div>
-            <p className="text-forest text-xs">
+            <p className="text-forest text-sm">
               Add note: "Tip for {memberName} - Get Up And Go Kayaking"
             </p>
           </div>
