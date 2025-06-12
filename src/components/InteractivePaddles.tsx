@@ -28,7 +28,7 @@ const InteractivePaddles = () => {
     return () => clearInterval(gameLoop);
   }, [velocity]);
 
-  const handlePaddlesClick = () => {
+  const handlePaddleClick = () => {
     setIsJumping(true);
     setClickCount(prev => prev + 1);
     setVelocity(6); // stronger flap for better control
@@ -43,21 +43,21 @@ const InteractivePaddles = () => {
 
   const getRandomMessage = () => {
     const messages = [
-      "Quack! Let's keep our waterways clean! 🌊",
-      "Paddle on! Every adventure helps protect nature! 🦆",
+      "🚣 Let's keep our waterways clean! 🌊",
+      "Paddle on! Every adventure helps protect nature! 🚣",
       "Thanks for caring about our environment! 💚",
       "Conservation is cool! Keep Austin waters beautiful! ✨",
-      "Quack quack! You're helping protect our habitat! 🌿"
+      "Keep paddling! You're helping protect our habitat! 🌿"
     ];
     return messages[clickCount % messages.length];
   };
 
   return (
-    <div className="fixed bottom-0 right-4 z-50 pointer-events-none h-screen w-16">
+    <div className="fixed bottom-0 right-4 z-50 pointer-events-none h-screen w-12">
       {/* Motion streaks when jumping */}
       {showStreaks && (
         <div 
-          className="absolute right-2 pointer-events-none"
+          className="absolute right-1 pointer-events-none"
           style={{ bottom: `${position + 5}%` }}
         >
           {[...Array(3)].map((_, i) => (
@@ -65,9 +65,9 @@ const InteractivePaddles = () => {
               key={i}
               className="absolute w-1 bg-sunshine opacity-60 animate-fade-out"
               style={{
-                height: '12px',
-                right: `${8 + i * 4}px`,
-                top: `${i * 3}px`,
+                height: '8px',
+                right: `${6 + i * 3}px`,
+                top: `${i * 2}px`,
                 animationDelay: `${i * 50}ms`,
                 animationDuration: '300ms'
               }}
@@ -79,38 +79,31 @@ const InteractivePaddles = () => {
       {/* Speech bubble that appears after clicking */}
       {clickCount > 0 && (
         <div 
-          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-lg border-2 border-sunshine mb-2 max-w-[160px] animate-fade-in"
-          style={{ bottom: `${position + 12}%` }}
+          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-lg border-2 border-sunshine mb-2 max-w-[140px] animate-fade-in"
+          style={{ bottom: `${position + 10}%` }}
         >
           <p className="text-forest text-xs font-medium">{getRandomMessage()}</p>
-          <div className="absolute bottom-0 right-4 w-0 h-0 border-l-3 border-r-3 border-t-3 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
+          <div className="absolute bottom-0 right-3 w-0 h-0 border-l-2 border-r-2 border-t-2 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
         </div>
       )}
       
-      {/* Interactive Paddles with straight movement */}
+      {/* Interactive Paddle Emoji */}
       <div 
-        onClick={handlePaddlesClick}
-        className={`absolute right-0 cursor-pointer transition-all duration-200 hover:scale-110 pointer-events-auto ${
+        onClick={handlePaddleClick}
+        className={`absolute right-0 cursor-pointer transition-all duration-200 hover:scale-110 pointer-events-auto text-2xl select-none ${
           isJumping ? 'animate-pulse' : ''
         }`}
         style={{ bottom: `${position}%` }}
-        title="Click me to fly! 🦆"
+        title="Click me to paddle! 🚣"
       >
-        <img 
-          src="/lovable-uploads/570f20a8-66f4-4062-bdd0-e6d298e7333c.png"
-          alt="Paddles the Duck - Click to fly!"
-          className="w-10 h-10 md:w-12 md:h-12 drop-shadow-lg"
-          style={{
-            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
-          }}
-        />
+        🚣
       </div>
       
       {/* Environmental tip counter */}
       {clickCount >= 3 && (
         <div 
-          className="absolute right-0 bg-coral text-white rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-xs font-bold animate-pulse pointer-events-none"
-          style={{ bottom: `${position + 8}%`, transform: 'translateX(6px)' }}
+          className="absolute right-0 bg-coral text-white rounded-full w-4 h-4 flex items-center justify-center text-xs font-bold animate-pulse pointer-events-none"
+          style={{ bottom: `${position + 6}%`, transform: 'translateX(4px)' }}
         >
           {clickCount}
         </div>

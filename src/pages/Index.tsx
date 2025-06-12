@@ -1,10 +1,12 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, Users, Star, Phone, DollarSign } from 'lucide-react';
+import { Heart, Users, Star, DollarSign } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import TeamMember from '@/components/TeamMember';
 import Footer from '@/components/Footer';
 import InteractivePaddles from '@/components/InteractivePaddles';
+import ZelleDropdown from '@/components/ZelleDropdown';
 import { teamMembersData, TeamMemberData } from '@/data/teamMembers';
 
 const Index = () => {
@@ -25,11 +27,6 @@ const Index = () => {
     window.open(selectedMember.paypal, '_blank');
   };
 
-  const handleZelle = () => {
-    if (!selectedMember || !selectedMember.zelle) return;
-    alert(`To tip ${selectedMember.name} via Zelle:\n1. Open your banking app\n2. Go to Zelle\n3. Send to: ${selectedMember.zelle}\n4. Add note: "Tip for ${selectedMember.name} - Get Up And Go Kayaking"`);
-  };
-
   const handleTripAdvisor = () => {
     if (!selectedMember) {
       alert('Please select a team member first!');
@@ -37,6 +34,10 @@ const Index = () => {
     }
     const tripAdvisorUrl = selectedMember.tripadvisor || 'https://www.tripadvisor.com/Attraction_Review-g30196-d27967059-Reviews-Get_Up_and_Go_Kayaking_Austin_Texas_ATX-Austin_Texas.html';
     window.open(tripAdvisorUrl, '_blank');
+  };
+
+  const handleLogoClick = () => {
+    window.open('https://getupandgokayaking.com/locations/texas/austin/', '_blank');
   };
 
   return (
@@ -48,7 +49,8 @@ const Index = () => {
             <img 
               src="/lovable-uploads/aed684a8-b5d5-4277-80ea-16536387772e.png" 
               alt="Get Up And Go Kayaking Logo" 
-              className="h-32 w-auto drop-shadow-xl"
+              className="h-32 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform"
+              onClick={handleLogoClick}
             />
           </div>
           <p className="text-lg text-sunshine font-medium">
@@ -162,13 +164,10 @@ const Index = () => {
                   )}
 
                   {selectedMember?.zelle && (
-                    <Button
-                      onClick={handleZelle}
-                      className="w-full bg-coral hover:bg-coral/80 text-white py-3 text-sm md:text-base font-bold border border-coral rounded-lg"
-                    >
-                      <Phone className="w-4 h-4 mr-2" />
-                      Tip via Zelle
-                    </Button>
+                    <ZelleDropdown 
+                      memberName={selectedMember.name}
+                      zelleNumber={selectedMember.zelle}
+                    />
                   )}
 
                   {selectedMember && !selectedMember.cashApp && !selectedMember.venmo && !selectedMember.paypal && !selectedMember.zelle && (
@@ -215,6 +214,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
