@@ -34,11 +34,11 @@ const InteractivePaddles = () => {
     setVelocity(6); // stronger flap for better control
     setShowStreaks(true);
     
-    // Reset jump animation and streaks
+    // Reset jump animation and streaks - increased duration for better readability
     setTimeout(() => {
       setIsJumping(false);
       setShowStreaks(false);
-    }, 300);
+    }, 500);
   };
 
   const getRandomMessage = () => {
@@ -69,17 +69,17 @@ const InteractivePaddles = () => {
                 right: `${10 + i * 5}px`,
                 top: `${i * 4}px`,
                 animationDelay: `${i * 50}ms`,
-                animationDuration: '300ms'
+                animationDuration: '500ms'
               }}
             />
           ))}
         </div>
       )}
 
-      {/* Speech bubble that appears after clicking - stays visible permanently */}
+      {/* Speech bubble that appears after clicking - stays visible permanently with longer duration */}
       {clickCount > 0 && (
         <div 
-          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[180px] z-50 pointer-events-none"
+          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[180px] z-50 pointer-events-none animate-in fade-in-0 slide-in-from-right-1 duration-500"
           style={{ bottom: `${position + 15}%` }}
         >
           <p className="text-forest text-xs md:text-sm font-medium leading-tight">{getRandomMessage()}</p>

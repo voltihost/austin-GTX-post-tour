@@ -57,9 +57,9 @@ const Footer = () => {
   ];
 
   return (
-    <div className="bg-white/95 backdrop-blur-sm border-t border-water-light">
+    <div className="bg-gradient-to-r from-water-deep to-water-primary">
       {/* Social Media Icons with Gradient Backgrounds */}
-      <div className="bg-gradient-to-r from-water-deep to-water-primary py-3">
+      <div className="py-2">
         <div className="container mx-auto px-4">
           <div className="flex justify-center items-center gap-4">
             {socialLinks.map((social) => (
@@ -84,14 +84,14 @@ const Footer = () => {
         </div>
       </div>
       
-      {/* Voltihost Footer */}
+      {/* Voltihost Footer - Reduced height */}
       <div className="bg-black">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex justify-center items-center">
             <img 
               src="/lovable-uploads/f8374979-d9f6-4165-bc44-d3ff9357ea32.png" 
               alt="Powered by Voltihost" 
-              className="h-40 w-auto" 
+              className="h-24 w-auto" 
             />
           </div>
         </div>
