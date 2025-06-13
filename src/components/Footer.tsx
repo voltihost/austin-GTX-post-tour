@@ -46,7 +46,7 @@ const Footer = () => {
   return <div className="bg-white/95 backdrop-blur-sm border-t border-water-light">
       {/* Social Media Icons with Gradient Backgrounds */}
       <div className="">
-        <div className="container mx-auto px-4 bg-zinc-950">
+        <div className="container mx-auto px-4 bg-black">
           <div className="flex justify-center items-center gap-4 bg-zinc-950">
             {socialLinks.map(social => <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" title={social.name} className="w-10 h-10 bg-gradient-to-r from-water-primary to-sunshine hover:from-sunshine hover:to-water-primary transition-all rounded-lg flex items-center justify-center group border border-water-light shadow-lg hover:shadow-xl transform hover:scale-105">
                 {social.icon ? <social.icon className="w-5 h-5 text-white" /> : <span className="text-white text-base">
