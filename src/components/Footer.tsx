@@ -58,9 +58,9 @@ const Footer = () => {
 
   return (
     <div className="bg-white/95 backdrop-blur-sm border-t border-water-light">
-      {/* Social Media Icons with Black Background */}
+      {/* Social Media Icons with Themed Backgrounds */}
       <div className="bg-black">
-        <div className="container mx-auto px-4 py-3">
+        <div className="container mx-auto px-4 py-2">
           <div className="flex justify-center items-center gap-3">
             {socialLinks.map((social) => (
               <a
@@ -69,12 +69,12 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={social.name}
-                className="w-8 h-8 bg-black hover:bg-gray-800 transition-colors rounded-md flex items-center justify-center group border border-gray-600"
+                className="w-8 h-8 bg-water-primary hover:bg-sunshine transition-colors rounded-md flex items-center justify-center group border border-water-primary"
               >
                 {social.icon ? (
-                  <social.icon className="w-4 h-4 text-water-primary group-hover:text-sunshine" />
+                  <social.icon className="w-4 h-4 text-white" />
                 ) : (
-                  <span className="text-water-primary text-sm group-hover:text-sunshine">
+                  <span className="text-white text-sm">
                     {social.emoji}
                   </span>
                 )}

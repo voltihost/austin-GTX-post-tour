@@ -1,16 +1,18 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { Upload, Camera, Instagram, ArrowLeft } from 'lucide-react';
+import { Upload, Camera, Instagram, ArrowLeft, Wand2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const PhotoUpload = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [caption, setCaption] = useState('');
+  const [processedImage, setProcessedImage] = useState<string>('');
   const navigate = useNavigate();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const defaultCaption = "Amazing adventure with @getupandgo.atx! 🚣‍♀️ Austin's best kayaking experience! #GetUpAndGoKayaking #AustinKayaking #WaterAdventure #KeepAustinWeird #LakeLife #PaddleOn #Conservation #EcoTourism #Texas #ATX";
 
@@ -21,10 +23,85 @@ const PhotoUpload = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target?.result as string);
+        setProcessedImage(''); // Reset processed image
       };
       reader.readAsDataURL(file);
       setCaption(defaultCaption);
     }
+  };
+
+  const addKayakingFrame = () => {
+    if (!imagePreview || !canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const img = new Image();
+    img.onload = () => {
+      // Set canvas size
+      canvas.width = 800;
+      canvas.height = 800;
+
+      // Create gradient background
+      const gradient = ctx.createRadialGradient(400, 400, 0, 400, 400, 400);
+      gradient.addColorStop(0, '#40bfab');
+      gradient.addColorStop(1, '#77a6b8');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 800, 800);
+
+      // Draw user image in center (circular crop)
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(400, 400, 250, 0, 2 * Math.PI);
+      ctx.clip();
+      
+      // Calculate aspect ratio and draw image
+      const aspectRatio = img.width / img.height;
+      let drawWidth, drawHeight;
+      if (aspectRatio > 1) {
+        drawHeight = 500;
+        drawWidth = drawHeight * aspectRatio;
+      } else {
+        drawWidth = 500;
+        drawHeight = drawWidth / aspectRatio;
+      }
+      
+      ctx.drawImage(img, 400 - drawWidth/2, 400 - drawHeight/2, drawWidth, drawHeight);
+      ctx.restore();
+
+      // Add circular border
+      ctx.beginPath();
+      ctx.arc(400, 400, 250, 0, 2 * Math.PI);
+      ctx.strokeStyle = '#f6ed98';
+      ctx.lineWidth = 8;
+      ctx.stroke();
+
+      // Add text at bottom
+      ctx.fillStyle = '#f6ed98';
+      ctx.font = 'bold 36px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('GET UP AND GO KAYAKING', 400, 720);
+
+      // Add smaller text
+      ctx.font = 'bold 24px Arial';
+      ctx.fillText('AUSTIN\'S PREMIER WATER ADVENTURE', 400, 760);
+
+      // Add paddle emojis
+      ctx.font = '40px Arial';
+      ctx.fillText('🚣', 200, 720);
+      ctx.fillText('🚣', 600, 720);
+
+      // Convert to blob and set as processed image
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          setProcessedImage(url);
+        }
+      });
+    };
+    
+    img.src = imagePreview;
   };
 
   const handleCopyCaption = async () => {
@@ -37,8 +114,16 @@ const PhotoUpload = () => {
   };
 
   const handleShareToInstagram = () => {
-    // Open Instagram in a new tab - users will need to manually post
     window.open('https://www.instagram.com/', '_blank');
+  };
+
+  const downloadProcessedImage = () => {
+    if (!processedImage) return;
+    
+    const link = document.createElement('a');
+    link.download = 'kayaking-adventure.png';
+    link.href = processedImage;
+    link.click();
   };
 
   return (
@@ -65,7 +150,7 @@ const PhotoUpload = () => {
               Instagram Post Creator
             </CardTitle>
             <CardDescription className="text-forest">
-              Upload your kayaking photo and we'll provide a caption ready for Instagram!
+              Upload your photo and we'll provide a caption ready for Instagram!
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -85,15 +170,41 @@ const PhotoUpload = () => {
               </label>
             </div>
 
+            {/* Don't have a picture section */}
+            {imagePreview && !processedImage && (
+              <div className="bg-sunshine/20 p-4 rounded-lg border border-sunshine">
+                <p className="text-forest font-medium mb-3">
+                  📸 <strong>Don't have a kayaking picture?</strong><br/>
+                  Transform any picture into a kayaking experience!
+                </p>
+                <Button
+                  onClick={addKayakingFrame}
+                  className="w-full bg-coral hover:bg-coral/80 text-white"
+                >
+                  <Wand2 className="w-4 h-4 mr-2" />
+                  Add Kayaking Frame & Logo
+                </Button>
+              </div>
+            )}
+
             {/* Image Preview */}
             {imagePreview && (
               <div className="space-y-4">
                 <div className="text-center">
                   <img
-                    src={imagePreview}
+                    src={processedImage || imagePreview}
                     alt="Preview"
                     className="max-w-full h-64 object-cover rounded-lg mx-auto border border-water-primary"
                   />
+                  {processedImage && (
+                    <Button
+                      onClick={downloadProcessedImage}
+                      variant="outline"
+                      className="mt-3 border-water-primary text-water-primary hover:bg-water-primary hover:text-white"
+                    >
+                      Download Framed Image
+                    </Button>
+                  )}
                 </div>
 
                 {/* Caption */}
@@ -129,15 +240,19 @@ const PhotoUpload = () => {
                   <p className="text-forest text-sm font-medium">
                     📱 <strong>How to post:</strong><br/>
                     1. Copy the caption above<br/>
-                    2. Click "Open Instagram" to go to Instagram<br/>
-                    3. Create a new post with your photo<br/>
-                    4. Paste the caption and share your adventure!
+                    2. {processedImage ? 'Download the framed image or use your original' : 'Save your image'}<br/>
+                    3. Click "Open Instagram" to go to Instagram<br/>
+                    4. Create a new post with your photo<br/>
+                    5. Paste the caption and share your adventure!
                   </p>
                 </div>
               </div>
             )}
           </CardContent>
         </Card>
+
+        {/* Hidden canvas for image processing */}
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
     </div>
   );
