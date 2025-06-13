@@ -53,7 +53,7 @@ const Index = () => {
             <img 
               src="/lovable-uploads/a0651e9b-f61e-4f77-969e-98303a85cf70.png" 
               alt="Get Up And Go Kayaking Logo" 
-              className="h-32 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform"
+              className="h-48 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform"
               onClick={handleLogoClick}
             />
           </div>
@@ -93,10 +93,10 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 gap-3 max-h-72 md:max-h-96 overflow-y-auto">
-                  {teamMembersData.map((member, index) => (
+                  {teamMembersData.map((member) => (
                     <div key={member.name} className="flex items-center gap-3 p-3 rounded-lg hover:bg-sunshine/20 transition-colors">
                       <img 
-                        src={member.imageUrl || `https://images.unsplash.com/photo-${1500000000000 + index * 1000000}-woman-wearing-blue-jacket-sitting-on-chair?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80`}
+                        src={member.imageUrl}
                         alt={member.name}
                         className="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-water-primary flex-shrink-0"
                       />

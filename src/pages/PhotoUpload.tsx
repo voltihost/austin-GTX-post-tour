@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +13,7 @@ const PhotoUpload = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const defaultCaption = "Amazing adventure with @getupandgo.atx! 🚣‍♀️ Austin's best kayaking experience! #GetUpAndGoKayaking #AustinKayaking #WaterAdventure #KeepAustinWeird #LakeLife #PaddleOn #Conservation #EcoTourism #Texas #ATX";
+  const defaultCaption = "Amazing adventure with @getupandgo.atx! 🚣‍♀️ Austin's best kayaking experience! #GetUpAndGoKayaking #AustinKayaking #WaterAdventure #KeepAustinWeird #LakeLife #PaddleOn #Conservation #EcoTourism #Texas #ATX #EnjoyNature";
 
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -87,10 +86,30 @@ const PhotoUpload = () => {
       ctx.font = 'bold 24px Arial';
       ctx.fillText('AUSTIN\'S PREMIER WATER ADVENTURE', 400, 760);
 
-      // Add paddle emojis
+      // Add duck emojis instead of paddles
       ctx.font = '40px Arial';
-      ctx.fillText('🚣', 200, 720);
-      ctx.fillText('🚣', 600, 720);
+      ctx.fillText('🦆', 200, 720);
+      ctx.fillText('🦆', 600, 720);
+
+      // Add #enjoynature on the side
+      ctx.save();
+      ctx.translate(50, 400);
+      ctx.rotate(-Math.PI / 2);
+      ctx.font = 'bold 28px Arial';
+      ctx.fillStyle = '#f6ed98';
+      ctx.textAlign = 'center';
+      ctx.fillText('#ENJOYNATURE', 0, 0);
+      ctx.restore();
+
+      // Add #enjoynature on the other side
+      ctx.save();
+      ctx.translate(750, 400);
+      ctx.rotate(Math.PI / 2);
+      ctx.font = 'bold 28px Arial';
+      ctx.fillStyle = '#f6ed98';
+      ctx.textAlign = 'center';
+      ctx.fillText('#ENJOYNATURE', 0, 0);
+      ctx.restore();
 
       // Convert to blob and set as processed image
       canvas.toBlob((blob) => {
