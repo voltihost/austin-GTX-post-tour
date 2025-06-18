@@ -74,30 +74,30 @@ const TippingCarousel = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto px-2 md:px-0">
       {/* Confirmation Dialog Overlay */}
       {showConfirmation && pendingMember && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md mx-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
             <div className="text-center">
               <img 
                 src={pendingMember.imageUrl || '/lovable-uploads/6fffa3da-e4e6-4a3f-b6e3-954ea03b8252.png'}
                 alt={pendingMember.name}
-                className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-water-primary"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mx-auto mb-4 border-4 border-water-primary"
               />
-              <h3 className="text-2xl font-bold text-forest mb-2">Tip {pendingMember.name}?</h3>
-              <p className="text-forest/70 mb-6">Continue to select your tipping method</p>
-              <div className="flex gap-4">
+              <h3 className="text-xl md:text-2xl font-bold text-forest mb-2">Tip {pendingMember.name}?</h3>
+              <p className="text-forest/70 mb-6 text-sm md:text-base">Continue to select your tipping method</p>
+              <div className="flex gap-3 md:gap-4">
                 <Button
                   onClick={cancelMemberSelection}
                   variant="outline"
-                  className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50"
+                  className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 py-2 md:py-3"
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={confirmMemberSelection}
-                  className="flex-1 bg-water-primary hover:bg-water-deep text-white"
+                  className="flex-1 bg-water-primary hover:bg-water-deep text-white py-2 md:py-3 font-semibold"
                 >
                   Yes, Continue
                 </Button>
@@ -112,29 +112,29 @@ const TippingCarousel = () => {
           {/* Step 1: Team Member Selection */}
           <CarouselItem>
             <Card className="shadow-xl bg-white border-0">
-              <CardHeader className="text-center pb-6">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <Heart className="text-water-primary w-8 h-8" />
-                  <CardTitle className="text-2xl text-forest">Choose Your Guide</CardTitle>
+              <CardHeader className="text-center pb-4 md:pb-6 px-4 md:px-6">
+                <div className="flex items-center justify-center gap-2 md:gap-3 mb-3 md:mb-4">
+                  <Heart className="text-water-primary w-6 h-6 md:w-8 md:h-8" />
+                  <CardTitle className="text-xl md:text-2xl text-forest">Choose Your Guide</CardTitle>
                 </div>
-                <CardDescription className="text-lg text-forest/70">
+                <CardDescription className="text-base md:text-lg text-forest/70 px-2">
                   Select the team member who made your experience amazing
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <CardContent className="px-4 md:px-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
                   {teamMembersData.map((member) => (
                     <button
                       key={member.name}
                       onClick={() => handleMemberClick(member)}
-                      className="group p-4 rounded-xl border-2 border-gray-100 hover:border-water-primary hover:bg-water-primary/5 transition-all duration-200 text-center cursor-pointer"
+                      className="group p-3 md:p-4 rounded-xl border-2 border-gray-100 hover:border-water-primary hover:bg-water-primary/5 transition-all duration-200 text-center cursor-pointer active:scale-95"
                     >
                       <img 
                         src={member.imageUrl || '/lovable-uploads/6fffa3da-e4e6-4a3f-b6e3-954ea03b8252.png'}
                         alt={member.name}
-                        className="w-16 h-16 rounded-full object-cover mx-auto mb-3 border-2 border-water-light group-hover:border-water-primary transition-colors"
+                        className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover mx-auto mb-2 md:mb-3 border-2 border-water-light group-hover:border-water-primary transition-colors"
                       />
-                      <p className="font-semibold text-forest group-hover:text-water-primary transition-colors text-sm">
+                      <p className="font-semibold text-forest group-hover:text-water-primary transition-colors text-xs md:text-sm leading-tight">
                         {member.name}
                       </p>
                     </button>
@@ -147,29 +147,29 @@ const TippingCarousel = () => {
           {/* Step 2: Payment Method Selection */}
           <CarouselItem>
             <Card className="shadow-xl bg-white border-0">
-              <CardHeader className="text-center pb-6">
+              <CardHeader className="text-center pb-4 md:pb-6 px-4 md:px-6">
                 <button 
                   onClick={resetFlow}
-                  className="flex items-center gap-2 text-water-primary hover:text-water-deep mb-4 mx-auto"
+                  className="flex items-center gap-2 text-water-primary hover:text-water-deep mb-3 md:mb-4 mx-auto text-sm md:text-base"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Back to team selection
                 </button>
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <DollarSign className="text-water-primary w-8 h-8" />
-                  <CardTitle className="text-2xl text-forest">Send a Tip</CardTitle>
+                <div className="flex items-center justify-center gap-2 md:gap-3 mb-3 md:mb-4">
+                  <DollarSign className="text-water-primary w-6 h-6 md:w-8 md:h-8" />
+                  <CardTitle className="text-xl md:text-2xl text-forest">Send a Tip</CardTitle>
                 </div>
-                <CardDescription className="text-lg text-forest/70">
+                <CardDescription className="text-base md:text-lg text-forest/70 px-2">
                   {selectedMember ? `Choose how to tip ${selectedMember.name}` : "Select a payment method"}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 px-4 md:px-6">
                 {selectedMember && (
-                  <div className="text-center mb-6 p-4 bg-water-primary/10 rounded-xl">
+                  <div className="text-center mb-4 md:mb-6 p-4 bg-water-primary/10 rounded-xl">
                     <img 
                       src={selectedMember.imageUrl || '/lovable-uploads/6fffa3da-e4e6-4a3f-b6e3-954ea03b8252.png'}
                       alt={selectedMember.name}
-                      className="w-20 h-20 rounded-full object-cover mx-auto mb-3 border-2 border-water-primary"
+                      className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover mx-auto mb-3 border-2 border-water-primary"
                     />
                     <p className="font-bold text-forest text-lg">Tipping {selectedMember.name}</p>
                   </div>
@@ -179,33 +179,33 @@ const TippingCarousel = () => {
                   {selectedMember?.cashApp && (
                     <Button
                       onClick={() => handlePaymentMethod('cashapp')}
-                      className="w-full bg-water-primary hover:bg-water-deep text-white py-4 text-lg font-semibold rounded-xl"
+                      className="w-full bg-water-primary hover:bg-water-deep text-white py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
                     >
-                      <DollarSign className="w-5 h-5 mr-3" />
+                      <DollarSign className="w-4 h-4 md:w-5 md:h-5 mr-3" />
                       Tip via CashApp
-                      <ArrowRight className="w-5 h-5 ml-auto" />
+                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-auto" />
                     </Button>
                   )}
 
                   {selectedMember?.venmo && (
                     <Button
                       onClick={() => handlePaymentMethod('venmo')}
-                      className="w-full bg-water-primary hover:bg-water-deep text-white py-4 text-lg font-semibold rounded-xl"
+                      className="w-full bg-water-primary hover:bg-water-deep text-white py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
                     >
-                      <DollarSign className="w-5 h-5 mr-3" />
+                      <DollarSign className="w-4 h-4 md:w-5 md:h-5 mr-3" />
                       Tip via Venmo
-                      <ArrowRight className="w-5 h-5 ml-auto" />
+                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-auto" />
                     </Button>
                   )}
 
                   {selectedMember?.paypal && (
                     <Button
                       onClick={() => handlePaymentMethod('paypal')}
-                      className="w-full bg-purple-accent hover:bg-purple-accent/80 text-white py-4 text-lg font-semibold rounded-xl"
+                      className="w-full bg-purple-accent hover:bg-purple-accent/80 text-white py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
                     >
-                      <DollarSign className="w-5 h-5 mr-3" />
+                      <DollarSign className="w-4 h-4 md:w-5 md:h-5 mr-3" />
                       Tip via PayPal
-                      <ArrowRight className="w-5 h-5 ml-auto" />
+                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-auto" />
                     </Button>
                   )}
 
@@ -219,12 +219,12 @@ const TippingCarousel = () => {
                   )}
 
                   {selectedMember && !selectedMember.cashApp && !selectedMember.venmo && !selectedMember.paypal && !selectedMember.zelle && (
-                    <div className="text-center py-8">
-                      <p className="text-forest/70 mb-4">No payment options available for {selectedMember.name}</p>
+                    <div className="text-center py-6 md:py-8">
+                      <p className="text-forest/70 mb-4 text-sm md:text-base">No payment options available for {selectedMember.name}</p>
                       <Button 
                         onClick={() => setCurrentStep(2)}
                         variant="outline"
-                        className="border-water-primary text-water-primary hover:bg-water-primary hover:text-white"
+                        className="border-water-primary text-water-primary hover:bg-water-primary hover:text-white py-2 md:py-3"
                       >
                         Continue to Reviews
                       </Button>
@@ -238,43 +238,43 @@ const TippingCarousel = () => {
           {/* Step 3: Member Profile & Confirmation */}
           <CarouselItem>
             <Card className="shadow-xl bg-white border-0">
-              <CardHeader className="text-center pb-6">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <Heart className="text-sunshine w-8 h-8" />
-                  <CardTitle className="text-2xl text-forest">Thank You!</CardTitle>
+              <CardHeader className="text-center pb-4 md:pb-6 px-4 md:px-6">
+                <div className="flex items-center justify-center gap-2 md:gap-3 mb-3 md:mb-4">
+                  <Heart className="text-sunshine w-6 h-6 md:w-8 md:h-8" />
+                  <CardTitle className="text-xl md:text-2xl text-forest">Thank You!</CardTitle>
                 </div>
-                <CardDescription className="text-lg text-forest/70">
+                <CardDescription className="text-base md:text-lg text-forest/70 px-2">
                   Your tip helps support our amazing team
                 </CardDescription>
               </CardHeader>
-              <CardContent className="text-center">
+              <CardContent className="text-center px-4 md:px-6">
                 {selectedMember && (
-                  <div className="mb-8">
+                  <div className="mb-6 md:mb-8">
                     <img 
                       src={selectedMember.imageUrl || '/lovable-uploads/6fffa3da-e4e6-4a3f-b6e3-954ea03b8252.png'}
                       alt={selectedMember.name}
-                      className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-water-primary shadow-lg"
+                      className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover mx-auto mb-4 border-4 border-water-primary shadow-lg"
                     />
-                    <h3 className="text-2xl font-bold text-forest mb-2">{selectedMember.name}</h3>
-                    <p className="text-forest/70 text-lg">Austin's Premier Kayaking Guide</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-forest mb-2">{selectedMember.name}</h3>
+                    <p className="text-forest/70 text-base md:text-lg">Austin's Premier Kayaking Guide</p>
                   </div>
                 )}
                 
-                <div className="bg-sunshine/20 p-6 rounded-xl mb-6">
-                  <p className="text-forest font-semibold text-lg">
+                <div className="bg-sunshine/20 p-4 md:p-6 rounded-xl mb-4 md:mb-6">
+                  <p className="text-forest font-semibold text-base md:text-lg">
                     🙏 Your generosity makes a difference!
                   </p>
-                  <p className="text-forest/70 mt-2">
+                  <p className="text-forest/70 mt-2 text-sm md:text-base">
                     Tips help our guides continue providing exceptional water adventures while promoting environmental conservation.
                   </p>
                 </div>
 
                 <Button 
                   onClick={() => setCurrentStep(3)}
-                  className="w-full bg-water-primary hover:bg-water-deep text-white py-4 text-lg font-semibold rounded-xl"
+                  className="w-full bg-water-primary hover:bg-water-deep text-white py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
                   Continue to Share Your Experience
-                  <ArrowRight className="w-5 h-5 ml-3" />
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-3" />
                 </Button>
               </CardContent>
             </Card>
@@ -283,39 +283,39 @@ const TippingCarousel = () => {
           {/* Step 4: Reviews & Photo Upload */}
           <CarouselItem>
             <Card className="shadow-xl bg-white border-0">
-              <CardHeader className="text-center pb-6">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <Star className="text-sunshine w-8 h-8" />
-                  <CardTitle className="text-2xl text-forest">Share Your Adventure</CardTitle>
+              <CardHeader className="text-center pb-4 md:pb-6 px-4 md:px-6">
+                <div className="flex items-center justify-center gap-2 md:gap-3 mb-3 md:mb-4">
+                  <Star className="text-sunshine w-6 h-6 md:w-8 md:h-8" />
+                  <CardTitle className="text-xl md:text-2xl text-forest">Share Your Adventure</CardTitle>
                 </div>
-                <CardDescription className="text-lg text-forest/70">
+                <CardDescription className="text-base md:text-lg text-forest/70 px-2">
                   Help others discover Austin's best kayaking experience
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4 md:space-y-6 px-4 md:px-6">
                 <Button
                   onClick={handleTripAdvisor}
-                  className="w-full bg-sunshine hover:bg-sunshine/80 text-forest py-4 text-lg font-semibold rounded-xl"
+                  className="w-full bg-sunshine hover:bg-sunshine/80 text-forest py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
-                  <Star className="w-5 h-5 mr-3" />
+                  <Star className="w-4 h-4 md:w-5 md:h-5 mr-3" />
                   Review us on TripAdvisor
-                  <ArrowRight className="w-5 h-5 ml-auto" />
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-auto" />
                 </Button>
                 
                 <Button
                   onClick={handlePhotoUpload}
-                  className="w-full bg-coral hover:bg-coral/80 text-white py-4 text-lg font-semibold rounded-xl"
+                  className="w-full bg-coral hover:bg-coral/80 text-white py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
-                  <Camera className="w-5 h-5 mr-3" />
+                  <Camera className="w-4 h-4 md:w-5 md:h-5 mr-3" />
                   Upload Photo for Instagram
-                  <ArrowRight className="w-5 h-5 ml-auto" />
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-auto" />
                 </Button>
 
-                <div className="bg-water-primary/10 p-6 rounded-xl text-center">
-                  <p className="text-forest font-medium mb-2">
+                <div className="bg-water-primary/10 p-4 md:p-6 rounded-xl text-center">
+                  <p className="text-forest font-medium mb-2 text-sm md:text-base">
                     🌟 Your feedback promotes sustainability!
                   </p>
-                  <p className="text-forest/70 text-sm">
+                  <p className="text-forest/70 text-xs md:text-sm">
                     Reviews help us continue our environmental education mission and attract eco-conscious adventurers to Austin's waterways.
                   </p>
                 </div>
@@ -323,7 +323,7 @@ const TippingCarousel = () => {
                 <Button 
                   onClick={resetFlow}
                   variant="outline"
-                  className="w-full border-water-primary text-water-primary hover:bg-water-primary hover:text-white py-3 rounded-xl"
+                  className="w-full border-water-primary text-water-primary hover:bg-water-primary hover:text-white py-2 md:py-3 rounded-xl"
                 >
                   Tip Another Team Member
                 </Button>

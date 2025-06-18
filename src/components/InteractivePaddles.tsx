@@ -38,7 +38,7 @@ const InteractivePaddles = () => {
     setTimeout(() => {
       setIsJumping(false);
       setShowStreaks(false);
-    }, 500);
+    }, 800); // Increased from 500ms to 800ms
   };
 
   const getRandomMessage = () => {
@@ -69,7 +69,7 @@ const InteractivePaddles = () => {
                 right: `${10 + i * 5}px`,
                 top: `${i * 4}px`,
                 animationDelay: `${i * 50}ms`,
-                animationDuration: '500ms'
+                animationDuration: '800ms' // Increased duration
               }}
             />
           ))}
@@ -79,8 +79,11 @@ const InteractivePaddles = () => {
       {/* Speech bubble that appears after clicking - stays visible permanently with longer duration */}
       {clickCount > 0 && (
         <div 
-          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[180px] z-50 pointer-events-none animate-in fade-in-0 slide-in-from-right-1 duration-500"
-          style={{ bottom: `${position + 15}%` }}
+          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[200px] z-50 pointer-events-none animate-in fade-in-0 slide-in-from-right-1 duration-700"
+          style={{ 
+            bottom: `${position + 15}%`,
+            animationDuration: '1200ms' // Longer display animation
+          }}
         >
           <p className="text-forest text-xs md:text-sm font-medium leading-tight">{getRandomMessage()}</p>
           <div className="absolute bottom-0 right-3 md:right-4 w-0 h-0 border-l-2 border-r-2 border-t-2 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
