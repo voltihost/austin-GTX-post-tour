@@ -1,225 +1,70 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, Users, Star, DollarSign } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import TeamMember from '@/components/TeamMember';
+import { Heart } from 'lucide-react';
 import Footer from '@/components/Footer';
 import InteractivePaddles from '@/components/InteractivePaddles';
-import ZelleDropdown from '@/components/ZelleDropdown';
-import { teamMembersData, TeamMemberData } from '@/data/teamMembers';
+import TippingCarousel from '@/components/TippingCarousel';
 
 const Index = () => {
-  const [selectedMember, setSelectedMember] = useState<TeamMemberData | null>(null);
-
-  const handleCashApp = () => {
-    if (!selectedMember || !selectedMember.cashApp) return;
-    window.open(selectedMember.cashApp, '_blank');
-  };
-
-  const handleVenmo = () => {
-    if (!selectedMember || !selectedMember.venmo) return;
-    window.open(selectedMember.venmo, '_blank');
-  };
-
-  const handlePayPal = () => {
-    if (!selectedMember || !selectedMember.paypal) return;
-    window.open(selectedMember.paypal, '_blank');
-  };
-
-  const handleTripAdvisor = () => {
-    if (!selectedMember) {
-      alert('Please select a team member first!');
-      return;
-    }
-    const tripAdvisorUrl = selectedMember.tripadvisor || 'https://www.tripadvisor.com/Attraction_Review-g30196-d27967059-Reviews-Get_Up_and_Go_Kayaking_Austin_Texas_ATX-Austin_Texas.html';
-    window.open(tripAdvisorUrl, '_blank');
-  };
-
   const handleLogoClick = () => {
     window.open('https://getupandgokayaking.com/locations/texas/austin/', '_blank');
-  };
-
-  const handlePhotoUpload = () => {
-    window.location.href = '/photo-upload';
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-water-deep via-water-primary to-water-light">
       {/* Header with Logo */}
-      <div className="w-full max-w-7xl mx-auto px-4 py-6">
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center mb-4">
+      <div className="w-full max-w-7xl mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center mb-6">
             <img 
               src="/lovable-uploads/a0651e9b-f61e-4f77-969e-98303a85cf70.png" 
               alt="Get Up And Go Kayaking Logo" 
-              className="h-48 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform"
+              className="h-56 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform"
               onClick={handleLogoClick}
             />
           </div>
-          <p className="text-lg text-sunshine font-medium">
-            Thank you for choosing Austin's premier water adventure experience! 🌊
-          </p>
+          <div className="max-w-2xl mx-auto">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Thank You for an Amazing Adventure! 🌊
+            </h1>
+            <p className="text-xl text-sunshine mb-8 leading-relaxed">
+              Your experience with Austin's premier water adventure team was just the beginning. 
+              Show your appreciation and help us continue creating unforgettable moments!
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Interactive Paddles Mascot */}
       <InteractivePaddles />
 
-      {/* Tipping Section */}
-      <div className="bg-gradient-to-r from-forest to-water-deep py-8">
+      {/* Main Tipping Section - Clean and Focused */}
+      <div className="bg-gradient-to-r from-forest/90 to-water-deep/90 py-16">
         <div className="w-full max-w-7xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Heart className="text-sunshine w-6 h-6 md:w-8 md:h-8" />
-              <h2 className="text-xl md:text-3xl font-bold text-white">We Appreciate You!</h2>
-              <Heart className="text-sunshine w-6 h-6 md:w-8 md:h-8" />
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <Heart className="text-sunshine w-10 h-10 animate-pulse" />
+              <h2 className="text-4xl font-bold text-white">Show Your Appreciation</h2>
+              <Heart className="text-sunshine w-10 h-10 animate-pulse" />
             </div>
-            <p className="text-base md:text-lg text-sunshine mb-2">Had an Amazing Experience?</p>
-            <p className="text-water-light text-sm md:text-base">Show appreciation to our incredible team!</p>
+            <p className="text-xl text-water-light max-w-3xl mx-auto leading-relaxed">
+              Had an incredible experience? Your tips help our guides continue providing world-class adventures 
+              while supporting environmental conservation in beautiful Austin.
+            </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Team Member Selection */}
-            <Card className="shadow-lg bg-white/95 backdrop-blur-sm border border-water-light">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-forest text-lg md:text-xl">
-                  <Users className="w-5 h-5 text-water-primary" />
-                  Meet Our Amazing Team
-                </CardTitle>
-                <CardDescription className="text-forest text-sm md:text-base">
-                  Choose the team member you'd like to tip or review
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 gap-3 max-h-72 md:max-h-96 overflow-y-auto">
-                  {teamMembersData.map((member) => (
-                    <div key={member.name} className="flex items-center gap-3 p-3 rounded-lg hover:bg-sunshine/20 transition-colors">
-                      <img 
-                        src={member.imageUrl}
-                        alt={member.name}
-                        className="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-water-primary flex-shrink-0"
-                      />
-                      <TeamMember
-                        name={member.name}
-                        isSelected={selectedMember?.name === member.name}
-                        onSelect={() => setSelectedMember(member)}
-                      />
-                    </div>
-                  ))}
-                </div>
-                {selectedMember && (
-                  <div className="mt-4 p-4 bg-sunshine/20 border border-sunshine rounded-lg">
-                    <p className="text-forest font-bold text-sm md:text-base">
-                      ✅ Selected: {selectedMember.name}
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+          {/* Tipping Carousel - The main focus */}
+          <TippingCarousel />
 
-            {/* Payment Methods */}
-            <div className="space-y-6">
-              <Card className="shadow-lg bg-white/95 backdrop-blur-sm border border-water-light">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-forest text-lg md:text-xl">Send a Tip 💝</CardTitle>
-                  <CardDescription className="text-forest text-sm md:text-base">
-                    {selectedMember 
-                      ? `Choose payment method for ${selectedMember.name}`
-                      : "Select a team member first"
-                    }
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {!selectedMember && (
-                    <p className="text-forest text-center py-4 font-medium text-sm">
-                      Please select a team member above.
-                    </p>
-                  )}
-
-                  {selectedMember?.cashApp && (
-                    <Button
-                      onClick={handleCashApp}
-                      className="w-full bg-water-primary hover:bg-water-deep text-white py-3 text-sm md:text-base font-bold border border-water-primary hover:border-water-deep rounded-lg"
-                    >
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      Tip via CashApp
-                    </Button>
-                  )}
-
-                  {selectedMember?.venmo && (
-                    <Button
-                      onClick={handleVenmo}
-                      className="w-full bg-water-primary hover:bg-water-deep text-white py-3 text-sm md:text-base font-bold border border-water-primary hover:border-water-deep rounded-lg"
-                    >
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      Tip via Venmo
-                    </Button>
-                  )}
-
-                  {selectedMember?.paypal && (
-                    <Button
-                      onClick={handlePayPal}
-                      className="w-full bg-purple-accent hover:bg-purple-accent/80 text-white py-3 text-sm md:text-base font-bold border border-purple-accent rounded-lg"
-                    >
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      Tip via PayPal
-                    </Button>
-                  )}
-
-                  {selectedMember?.zelle && (
-                    <ZelleDropdown 
-                      memberName={selectedMember.name}
-                      zelleNumber={selectedMember.zelle}
-                    />
-                  )}
-
-                  {selectedMember && !selectedMember.cashApp && !selectedMember.venmo && !selectedMember.paypal && !selectedMember.zelle && (
-                    <p className="text-forest text-center py-3 font-medium text-sm">
-                      No payment options available for {selectedMember.name}.
-                    </p>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* TripAdvisor Review */}
-              <Card className="shadow-lg bg-white/95 backdrop-blur-sm border border-water-light">
-                <CardHeader className="pb-3">
-                  <CardTitle className="flex items-center gap-2 text-forest text-lg md:text-xl">
-                    <Star className="w-5 h-5 text-sunshine" />
-                    Share Your Experience
-                  </CardTitle>
-                  <CardDescription className="text-forest text-sm md:text-base">
-                    Help others discover our amazing tours!
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Button
-                    onClick={handleTripAdvisor}
-                    className="w-full bg-sunshine hover:bg-sunshine/80 text-forest py-3 text-sm md:text-base font-bold border border-sunshine rounded-lg"
-                  >
-                    <Star className="w-4 h-4 mr-2" />
-                    Review us on TripAdvisor ⭐
-                  </Button>
-                  <Button
-                    onClick={handlePhotoUpload}
-                    className="w-full bg-coral hover:bg-coral/80 text-white py-3 text-sm md:text-base font-bold border border-coral rounded-lg"
-                  >
-                    📸 Upload Photo for Instagram Post
-                  </Button>
-                  <p className="text-xs text-forest mt-2 text-center font-medium">
-                    Your feedback helps promote sustainability! 🌟
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-
-          {/* Thank You Message */}
-          <div className="text-center mt-8 p-6 md:p-8 bg-white/90 rounded-xl border border-water-light shadow-lg">
-            <h3 className="text-lg md:text-xl font-bold text-forest mb-3">Thank You for Choosing Get Up And Go Kayaking! 🙏</h3>
-            <p className="text-forest text-sm md:text-base">
-              Your support helps us continue providing unforgettable water adventures while promoting environmental education and conservation in beautiful Austin! 💙
+          {/* Simple Thank You Message */}
+          <div className="text-center mt-16 p-8 bg-white/95 rounded-2xl border-0 shadow-2xl max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-forest mb-4">
+              💙 Supporting Sustainable Adventures
+            </h3>
+            <p className="text-forest/80 text-lg leading-relaxed">
+              Every tip and review helps us maintain Austin's waterways, educate visitors about conservation, 
+              and provide unforgettable experiences that connect people with nature.
             </p>
           </div>
         </div>
