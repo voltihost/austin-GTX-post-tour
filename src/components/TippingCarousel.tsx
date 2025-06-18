@@ -10,10 +10,26 @@ import ZelleDropdown from '@/components/ZelleDropdown';
 const TippingCarousel = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMemberData | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [pendingMember, setPendingMember] = useState<TeamMemberData | null>(null);
 
-  const handleMemberSelect = (member: TeamMemberData) => {
-    setSelectedMember(member);
-    setCurrentStep(1);
+  const handleMemberClick = (member: TeamMemberData) => {
+    setPendingMember(member);
+    setShowConfirmation(true);
+  };
+
+  const confirmMemberSelection = () => {
+    if (pendingMember) {
+      setSelectedMember(pendingMember);
+      setCurrentStep(1);
+      setShowConfirmation(false);
+      setPendingMember(null);
+    }
+  };
+
+  const cancelMemberSelection = () => {
+    setShowConfirmation(false);
+    setPendingMember(null);
   };
 
   const handlePaymentMethod = (method: string) => {
@@ -46,10 +62,44 @@ const TippingCarousel = () => {
   const resetFlow = () => {
     setSelectedMember(null);
     setCurrentStep(0);
+    setShowConfirmation(false);
+    setPendingMember(null);
   };
 
   return (
     <div className="w-full max-w-4xl mx-auto">
+      {/* Confirmation Dialog Overlay */}
+      {showConfirmation && pendingMember && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md mx-4">
+            <div className="text-center">
+              <img 
+                src={pendingMember.imageUrl || '/lovable-uploads/6fffa3da-e4e6-4a3f-b6e3-954ea03b8252.png'}
+                alt={pendingMember.name}
+                className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-water-primary"
+              />
+              <h3 className="text-2xl font-bold text-forest mb-2">Tip {pendingMember.name}?</h3>
+              <p className="text-forest/70 mb-6">Continue to select your tipping method</p>
+              <div className="flex gap-4">
+                <Button
+                  onClick={cancelMemberSelection}
+                  variant="outline"
+                  className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={confirmMemberSelection}
+                  className="flex-1 bg-water-primary hover:bg-water-deep text-white"
+                >
+                  Yes, Continue
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Carousel className="w-full">
         <CarouselContent>
           {/* Step 1: Team Member Selection */}
@@ -65,19 +115,19 @@ const TippingCarousel = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                   {teamMembersData.map((member) => (
                     <button
                       key={member.name}
-                      onClick={() => handleMemberSelect(member)}
-                      className="group p-4 rounded-xl border-2 border-gray-100 hover:border-water-primary hover:bg-water-primary/5 transition-all duration-200 text-center"
+                      onClick={() => handleMemberClick(member)}
+                      className="group p-4 rounded-xl border-2 border-gray-100 hover:border-water-primary hover:bg-water-primary/5 transition-all duration-200 text-center cursor-pointer"
                     >
                       <img 
                         src={member.imageUrl || '/lovable-uploads/6fffa3da-e4e6-4a3f-b6e3-954ea03b8252.png'}
                         alt={member.name}
                         className="w-16 h-16 rounded-full object-cover mx-auto mb-3 border-2 border-water-light group-hover:border-water-primary transition-colors"
                       />
-                      <p className="font-semibold text-forest group-hover:text-water-primary transition-colors">
+                      <p className="font-semibold text-forest group-hover:text-water-primary transition-colors text-sm">
                         {member.name}
                       </p>
                     </button>
