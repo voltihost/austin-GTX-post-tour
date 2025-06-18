@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { Facebook, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
   const socialLinks = [
@@ -21,33 +21,28 @@ const Footer = () => {
       icon: Instagram
     },
     {
-      name: 'LinkedIn',
-      url: 'https://www.linkedin.com/company/get-up-and-go-kayaking/',
-      icon: Linkedin
-    },
-    {
       name: 'Pinterest',
       url: 'https://www.pinterest.com/GetUpAndGoATX/_created/',
       icon: null,
-      emoji: '📌'
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png'
     },
     {
       name: 'TikTok',
       url: 'https://www.tiktok.com/@getupandgoatx',
       icon: null,
-      emoji: '🎵'
+      logo: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg'
     },
     {
       name: 'X (Twitter)',
       url: 'http://x.com/getupandgoatx',
       icon: null,
-      emoji: '𝕏'
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/5/57/X_logo_2023_original.svg'
     },
     {
       name: 'Yelp',
       url: 'https://www.yelp.com/biz/get-up-and-go-kayaking-austin',
       icon: null,
-      emoji: '⭐'
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ad/Yelp_Logo.svg'
     },
     {
       name: 'YouTube',
@@ -73,6 +68,12 @@ const Footer = () => {
               >
                 {social.icon ? (
                   <social.icon className="w-5 h-5 text-white" />
+                ) : social.logo ? (
+                  <img 
+                    src={social.logo} 
+                    alt={social.name}
+                    className="w-5 h-5 object-contain filter brightness-0 invert"
+                  />
                 ) : (
                   <span className="text-white text-base">
                     {social.emoji}
