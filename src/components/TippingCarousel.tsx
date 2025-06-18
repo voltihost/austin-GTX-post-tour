@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselApi } from '@/components/ui/carousel';
 import { Heart, Users, DollarSign, Star, ArrowRight, ArrowLeft, Camera } from 'lucide-react';
 import { teamMembersData, TeamMemberData } from '@/data/teamMembers';
 import ZelleDropdown from '@/components/ZelleDropdown';
@@ -12,6 +12,13 @@ const TippingCarousel = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [pendingMember, setPendingMember] = useState<TeamMemberData | null>(null);
+  const [api, setApi] = useState<CarouselApi>();
+
+  useEffect(() => {
+    if (!api) return;
+    
+    api.scrollTo(currentStep);
+  }, [api, currentStep]);
 
   const handleMemberClick = (member: TeamMemberData) => {
     setPendingMember(member);
@@ -100,7 +107,7 @@ const TippingCarousel = () => {
         </div>
       )}
 
-      <Carousel className="w-full">
+      <Carousel className="w-full" setApi={setApi}>
         <CarouselContent>
           {/* Step 1: Team Member Selection */}
           <CarouselItem>
