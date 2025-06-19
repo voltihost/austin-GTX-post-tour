@@ -69,13 +69,13 @@ const InteractivePaddles = () => {
         </div>
       )}
 
-      {/* Speech bubble - now displays for 6 seconds */}
+      {/* Speech bubble - now displays for 10 seconds */}
       {clickCount > 0 && (
         <div 
           className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[200px] z-50 pointer-events-none animate-in fade-in-0 slide-in-from-right-1"
           style={{ 
             bottom: `${position + 15}%`,
-            animation: 'fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 5.5s forwards'
+            animation: 'fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 9.5s forwards'
           }}
         >
           <p className="text-forest text-xs md:text-sm font-medium leading-tight">

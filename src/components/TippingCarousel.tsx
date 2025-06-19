@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,20 +6,24 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Heart, Users, DollarSign, Star, ArrowRight, ArrowLeft, Camera } from 'lucide-react';
 import { teamMembersData, TeamMemberData } from '@/data/teamMembers';
 import ZelleDropdown from '@/components/ZelleDropdown';
+
 const TippingCarousel = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMemberData | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [pendingMember, setPendingMember] = useState<TeamMemberData | null>(null);
   const [api, setApi] = useState<CarouselApi>();
+
   useEffect(() => {
     if (!api) return;
     api.scrollTo(currentStep);
   }, [api, currentStep]);
+
   const handleMemberClick = (member: TeamMemberData) => {
     setPendingMember(member);
     setShowConfirmation(true);
   };
+
   const confirmMemberSelection = () => {
     if (pendingMember) {
       setSelectedMember(pendingMember);
@@ -27,12 +32,15 @@ const TippingCarousel = () => {
       setPendingMember(null);
     }
   };
+
   const cancelMemberSelection = () => {
     setShowConfirmation(false);
     setPendingMember(null);
   };
+
   const handlePaymentMethod = (method: string) => {
     if (!selectedMember) return;
+    
     switch (method) {
       case 'cashapp':
         if (selectedMember.cashApp) window.open(selectedMember.cashApp, '_blank');
@@ -46,38 +54,56 @@ const TippingCarousel = () => {
     }
     setCurrentStep(2);
   };
+
   const handleTripAdvisor = () => {
     const tripAdvisorUrl = selectedMember?.tripadvisor || 'https://www.tripadvisor.com/Attraction_Review-g30196-d27967059-Reviews-Get_Up_and_Go_Kayaking_Austin_Texas_ATX-Austin_Texas.html';
     window.open(tripAdvisorUrl, '_blank');
   };
+
   const handlePhotoUpload = () => {
     window.location.href = '/photo-upload';
   };
+
   const resetFlow = () => {
     setSelectedMember(null);
     setCurrentStep(0);
     setShowConfirmation(false);
     setPendingMember(null);
   };
-  return <div className="w-full max-w-4xl mx-auto px-2 md:px-0">
+
+  return (
+    <div className="w-full max-w-4xl mx-auto px-2 md:px-0">
       {/* Confirmation Dialog Overlay */}
-      {showConfirmation && pendingMember && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      {showConfirmation && pendingMember && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
             <div className="text-center">
-              <img src={pendingMember.imageUrl || '/lovable-uploads/6fffa3da-e4e6-4a3f-b6e3-954ea03b8252.png'} alt={pendingMember.name} className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mx-auto mb-4 border-4 border-water-primary" />
+              <img 
+                src={pendingMember.imageUrl || '/lovable-uploads/6fffa3da-e4e6-4a3f-b6e3-954ea03b8252.png'} 
+                alt={pendingMember.name} 
+                className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mx-auto mb-4 border-4 border-water-primary" 
+              />
               <h3 className="text-xl md:text-2xl font-bold text-forest mb-2">Tip {pendingMember.name}?</h3>
               <p className="text-forest/70 mb-6 text-sm md:text-base">Continue to select your tipping method</p>
               <div className="flex gap-3 md:gap-4">
-                <Button onClick={cancelMemberSelection} variant="outline" className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 py-2 md:py-3">
+                <Button 
+                  onClick={cancelMemberSelection} 
+                  variant="outline" 
+                  className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 py-2 md:py-3"
+                >
                   Cancel
                 </Button>
-                <Button onClick={confirmMemberSelection} className="flex-1 bg-water-primary hover:bg-water-deep text-white py-2 md:py-3 font-semibold">
+                <Button 
+                  onClick={confirmMemberSelection} 
+                  className="flex-1 bg-water-primary hover:bg-water-deep text-white py-2 md:py-3 font-semibold"
+                >
                   Yes, Continue
                 </Button>
               </div>
             </div>
           </div>
-        </div>}
+        </div>
+      )}
 
       <Carousel className="w-full relative" setApi={setApi}>
         <CarouselContent>
@@ -240,19 +266,26 @@ const TippingCarousel = () => {
           </CarouselItem>
         </CarouselContent>
         
-        {/* Navigation arrows - visible on desktop, hidden on mobile for touch interaction */}
-        <div className="hidden md:block">
-          <CarouselPrevious className="left--10 bg-zinc-800 hover:bg-zinc-700 text-slate-100" />
-          <CarouselNext className="right--10 bg-zinc-800 hover:bg-zinc-700 text-slate-100" />
-        </div>
+        {/* Navigation arrows - restored with your specified styling */}
+        <CarouselPrevious className="left--10 bg-zinc-800 hover:bg-zinc-700 text-slate-100" />
+        <CarouselNext className="right--10 bg-zinc-800 hover:bg-zinc-700 text-slate-100" />
         
         {/* Step indicators for mobile */}
         <div className="flex justify-center mt-4 md:hidden">
           <div className="flex gap-2">
-            {[0, 1, 2, 3].map(step => <div key={step} className={`w-2 h-2 rounded-full transition-colors ${currentStep === step ? 'bg-water-primary' : 'bg-gray-300'}`} />)}
+            {[0, 1, 2, 3].map((step) => (
+              <div 
+                key={step} 
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  currentStep === step ? 'bg-water-primary' : 'bg-gray-300'
+                }`} 
+              />
+            ))}
           </div>
         </div>
       </Carousel>
-    </div>;
+    </div>
+  );
 };
+
 export default TippingCarousel;
