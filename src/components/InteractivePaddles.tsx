@@ -1,5 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { paddleMessages, emojis } from '@/config/assets';
 
 const InteractivePaddles = () => {
   const [isJumping, setIsJumping] = useState(false);
@@ -8,25 +9,27 @@ const InteractivePaddles = () => {
   const [velocity, setVelocity] = useState(0);
   const [showStreaks, setShowStreaks] = useState(false);
 
-  useEffect(() => {
-    const gameLoop = setInterval(() => {
-      setPosition(prev => {
-        const newPos = Math.max(10, Math.min(90, prev + velocity));
-        
-        if (newPos <= 10 && prev > 10) {
-          setClickCount(0);
-        }
-        
-        return newPos;
-      });
+  // Optimized game loop with useCallback
+  const gameLoop = useCallback(() => {
+    setPosition(prev => {
+      const newPos = Math.max(10, Math.min(90, prev + velocity));
       
-      setVelocity(prev => prev - 1.2);
-    }, 50);
-
-    return () => clearInterval(gameLoop);
+      if (newPos <= 10 && prev > 10) {
+        setClickCount(0);
+      }
+      
+      return newPos;
+    });
+    
+    setVelocity(prev => prev - 1.2);
   }, [velocity]);
 
-  const handlePaddleClick = () => {
+  useEffect(() => {
+    const interval = setInterval(gameLoop, 50);
+    return () => clearInterval(interval);
+  }, [gameLoop]);
+
+  const handlePaddleClick = useCallback(() => {
     setIsJumping(true);
     setClickCount(prev => prev + 1);
     setVelocity(6);
@@ -36,18 +39,11 @@ const InteractivePaddles = () => {
       setIsJumping(false);
       setShowStreaks(false);
     }, 1500);
-  };
+  }, []);
 
-  const getRandomMessage = () => {
-    const messages = [
-      "🚣 Let's keep our waterways clean! 🌊",
-      "Paddle on! Every adventure helps protect nature! 🚣",
-      "Thanks for caring about our environment! 💚",
-      "Conservation is cool! Keep Austin waters beautiful! ✨",
-      "Keep paddling! You're helping protect our habitat! 🌿"
-    ];
-    return messages[clickCount % messages.length];
-  };
+  const getCurrentMessage = useCallback(() => {
+    return paddleMessages[clickCount % paddleMessages.length];
+  }, [clickCount]);
 
   return (
     <div className="fixed bottom-0 right-2 md:right-4 z-40 pointer-events-none h-screen w-20">
@@ -73,16 +69,18 @@ const InteractivePaddles = () => {
         </div>
       )}
 
-      {/* Speech bubble - now displays for 4 seconds */}
+      {/* Speech bubble - now displays for 6 seconds */}
       {clickCount > 0 && (
         <div 
           className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[200px] z-50 pointer-events-none animate-in fade-in-0 slide-in-from-right-1"
           style={{ 
             bottom: `${position + 15}%`,
-            animation: 'fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 3.5s forwards'
+            animation: 'fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 5.5s forwards'
           }}
         >
-          <p className="text-forest text-xs md:text-sm font-medium leading-tight">{getRandomMessage()}</p>
+          <p className="text-forest text-xs md:text-sm font-medium leading-tight">
+            {getCurrentMessage()}
+          </p>
           <div className="absolute bottom-0 right-3 md:right-4 w-0 h-0 border-l-2 border-r-2 border-t-2 border-l-transparent border-r-transparent border-t-white/95 transform translate-y-full"></div>
         </div>
       )}
@@ -94,9 +92,12 @@ const InteractivePaddles = () => {
           isJumping ? 'animate-pulse' : ''
         }`}
         style={{ bottom: `${position}%` }}
-        title="Click me to paddle! 🚣"
+        title={`Click me to paddle! ${emojis.paddle}`}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === 'Enter' && handlePaddleClick()}
       >
-        🚣
+        {emojis.paddle}
       </div>
       
       {/* Environmental tip counter */}
@@ -109,16 +110,18 @@ const InteractivePaddles = () => {
         </div>
       )}
       
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes fadeOut {
-          from { opacity: 1; }
-          to { opacity: 0; }
-        }
-      `}</style>
+      <style>
+        {`
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+          }
+        `}
+      </style>
     </div>
   );
 };

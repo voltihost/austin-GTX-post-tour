@@ -1,23 +1,34 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
 import Footer from '@/components/Footer';
 import InteractivePaddles from '@/components/InteractivePaddles';
 import TippingCarousel from '@/components/TippingCarousel';
+import { companyLogos, emojis } from '@/config/assets';
+
 const Index = () => {
   const handleLogoClick = () => {
     window.open('https://getupandgokayaking.com/locations/texas/austin/', '_blank');
   };
-  return <div className="min-h-screen bg-gradient-to-br from-water-primary via-water-light to-water-primary">
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-water-primary via-water-light to-water-primary">
       {/* Header with Logo */}
       <div className="w-full max-w-7xl mx-auto px-4 py-6 md:py-8">
         <div className="text-center mb-6 md:mb-8">
           <div className="flex items-center justify-center mb-4 md:mb-6">
-            <img src="/lovable-uploads/7860e6ec-203a-4b28-b00c-4988892406a5.png" alt="Get Up And Go Kayaking Logo" className="h-40 md:h-56 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform" onClick={handleLogoClick} />
+            <img 
+              src={companyLogos.main}
+              alt="Get Up And Go Kayaking Logo" 
+              className="h-40 md:h-56 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform" 
+              onClick={handleLogoClick}
+              loading="lazy"
+            />
           </div>
           <div className="max-w-2xl mx-auto px-4">
             <h1 className="text-2xl md:text-4xl font-bold mb-6 md:mb-8 leading-tight text-zinc-950">
-              Thank you for choosing Austin's premier water adventure experience! 🌊
+              Thank you for choosing Austin's premier water adventure experience! {emojis.wave}
             </h1>
           </div>
         </div>
@@ -45,7 +56,7 @@ const Index = () => {
           <div className="bg-gradient-to-r from-water-primary to-water-deep p-6 md:p-8 rounded-2xl shadow-2xl max-w-4xl mx-auto mb-8 md:mb-12 border-2 border-sunshine/30">
             <div className="text-center">
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
-                🎯 Start Tipping Your Guide Below
+                {emojis.target} Start Tipping Your Guide Below
               </h3>
               <p className="text-water-light text-lg md:text-xl mb-4 md:mb-6 leading-relaxed">
                 Select your amazing guide and choose your preferred payment method
@@ -76,6 +87,8 @@ const Index = () => {
 
       {/* Footer */}
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Index;

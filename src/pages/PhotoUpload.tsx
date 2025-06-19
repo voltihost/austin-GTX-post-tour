@@ -1,9 +1,11 @@
+
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Upload, Camera, Instagram, ArrowLeft, Wand2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { emojis } from '@/config/assets';
 
 const PhotoUpload = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -13,7 +15,7 @@ const PhotoUpload = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const defaultCaption = "Amazing adventure with @getupandgo.atx! 🚣‍♀️ Austin's best kayaking experience! #GetUpAndGoKayaking #AustinKayaking #WaterAdventure #KeepAustinWeird #LakeLife #PaddleOn #Conservation #EcoTourism #Texas #ATX #EnjoyNature";
+  const defaultCaption = `Amazing adventure with @getupandgo.atx! ${emojis.paddle} Austin's best kayaking experience! #GetUpAndGoKayaking #AustinKayaking #WaterAdventure #KeepAustinWeird #LakeLife #PaddleOn #Conservation #EcoTourism #Texas #ATX #EnjoyNature`;
 
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -49,62 +51,62 @@ const PhotoUpload = () => {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, 1080, 1080);
 
-      // Draw user image in center (circular crop) - positioned higher to make room for text
+      // Draw user image in center (circular crop) - positioned higher
       ctx.save();
       ctx.beginPath();
-      ctx.arc(540, 450, 320, 0, 2 * Math.PI); // moved up from 540 to 450
+      ctx.arc(540, 420, 300, 0, 2 * Math.PI);
       ctx.clip();
       
       // Calculate aspect ratio and draw image
       const aspectRatio = img.width / img.height;
       let drawWidth, drawHeight;
       if (aspectRatio > 1) {
-        drawHeight = 640;
+        drawHeight = 600;
         drawWidth = drawHeight * aspectRatio;
       } else {
-        drawWidth = 640;
+        drawWidth = 600;
         drawHeight = drawWidth / aspectRatio;
       }
       
-      ctx.drawImage(img, 540 - drawWidth/2, 450 - drawHeight/2, drawWidth, drawHeight);
+      ctx.drawImage(img, 540 - drawWidth/2, 420 - drawHeight/2, drawWidth, drawHeight);
       ctx.restore();
 
       // Add circular border
       ctx.beginPath();
-      ctx.arc(540, 450, 320, 0, 2 * Math.PI);
+      ctx.arc(540, 420, 300, 0, 2 * Math.PI);
       ctx.strokeStyle = '#f6ed98';
-      ctx.lineWidth = 10;
+      ctx.lineWidth = 8;
       ctx.stroke();
 
-      // Add main company text at bottom with better spacing
+      // Add main company text at bottom with proper spacing
       ctx.fillStyle = '#f6ed98';
-      ctx.font = 'bold 44px Arial';
+      ctx.font = 'bold 40px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText('GET UP AND GO KAYAKING', 540, 900);
+      ctx.fillText('GET UP AND GO KAYAKING', 540, 860);
 
       // Add tagline text with proper spacing
-      ctx.font = 'bold 28px Arial';
-      ctx.fillText('AUSTIN\'S PREMIER WATER ADVENTURE', 540, 950);
+      ctx.font = 'bold 24px Arial';
+      ctx.fillText('AUSTIN\'S PREMIER WATER ADVENTURE', 540, 900);
 
-      // Add decorative elements positioned to not overlap
-      ctx.font = '50px Arial';
-      ctx.fillText('🦆', 200, 900); // left side
-      ctx.fillText('🦆', 880, 900); // right side
+      // Add decorative elements positioned properly
+      ctx.font = '40px Arial';
+      ctx.fillText(emojis.duck, 220, 870);
+      ctx.fillText(emojis.duck, 860, 870);
 
       // Add side hashtags with better positioning
       ctx.save();
-      ctx.translate(80, 540);
+      ctx.translate(100, 540);
       ctx.rotate(-Math.PI / 2);
-      ctx.font = 'bold 32px Arial';
+      ctx.font = 'bold 28px Arial';
       ctx.fillStyle = '#f6ed98';
       ctx.textAlign = 'center';
       ctx.fillText('#ENJOYNATURE', 0, 0);
       ctx.restore();
 
       ctx.save();
-      ctx.translate(1000, 540);
+      ctx.translate(980, 540);
       ctx.rotate(Math.PI / 2);
-      ctx.font = 'bold 32px Arial';
+      ctx.font = 'bold 28px Arial';
       ctx.fillStyle = '#f6ed98';
       ctx.textAlign = 'center';
       ctx.fillText('#ENJOYNATURE', 0, 0);
@@ -192,7 +194,7 @@ const PhotoUpload = () => {
             {imagePreview && !processedImage && (
               <div className="bg-sunshine/20 p-4 rounded-lg border border-sunshine">
                 <p className="text-forest font-medium mb-3">
-                  📸 <strong>Don't have a kayaking picture?</strong><br/>
+                  {emojis.camera} <strong>Don't have a kayaking picture?</strong><br/>
                   Transform any picture into a kayaking experience!
                 </p>
                 <Button
@@ -213,6 +215,7 @@ const PhotoUpload = () => {
                     src={processedImage || imagePreview}
                     alt="Preview"
                     className="max-w-full h-64 object-cover rounded-lg mx-auto border border-water-primary"
+                    loading="lazy"
                   />
                   {processedImage && (
                     <Button
@@ -256,7 +259,7 @@ const PhotoUpload = () => {
 
                 <div className="bg-sunshine/20 p-4 rounded-lg border border-sunshine">
                   <p className="text-forest text-sm font-medium">
-                    📱 <strong>How to post:</strong><br/>
+                    {emojis.phone} <strong>How to post:</strong><br/>
                     1. Copy the caption above<br/>
                     2. {processedImage ? 'Download the framed image or use your original' : 'Save your image'}<br/>
                     3. Click "Open Instagram" to go to Instagram<br/>
