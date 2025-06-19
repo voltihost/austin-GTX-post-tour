@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Carousel, CarouselContent, CarouselItem, CarouselApi } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from '@/components/ui/carousel';
 import { Heart, Users, DollarSign, Star, ArrowRight, ArrowLeft, Camera } from 'lucide-react';
 import { teamMembersData, TeamMemberData } from '@/data/teamMembers';
 import ZelleDropdown from '@/components/ZelleDropdown';
@@ -107,7 +107,7 @@ const TippingCarousel = () => {
         </div>
       )}
 
-      <Carousel className="w-full" setApi={setApi}>
+      <Carousel className="w-full relative" setApi={setApi}>
         <CarouselContent>
           {/* Step 1: Team Member Selection */}
           <CarouselItem>
@@ -331,6 +331,26 @@ const TippingCarousel = () => {
             </Card>
           </CarouselItem>
         </CarouselContent>
+        
+        {/* Navigation arrows - visible on desktop, hidden on mobile for touch interaction */}
+        <div className="hidden md:block">
+          <CarouselPrevious className="left-4" />
+          <CarouselNext className="right-4" />
+        </div>
+        
+        {/* Step indicators for mobile */}
+        <div className="flex justify-center mt-4 md:hidden">
+          <div className="flex gap-2">
+            {[0, 1, 2, 3].map((step)=> (
+              <div
+                key={step}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  currentStep === step ? 'bg-water-primary' : 'bg-gray-300'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </Carousel>
     </div>
   );

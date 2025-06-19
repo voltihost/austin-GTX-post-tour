@@ -22,7 +22,7 @@ const PhotoUpload = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target?.result as string);
-        setProcessedImage(''); // Reset processed image
+        setProcessedImage('');
       };
       reader.readAsDataURL(file);
       setCaption(defaultCaption);
@@ -38,74 +38,73 @@ const PhotoUpload = () => {
 
     const img = new Image();
     img.onload = () => {
-      // Set canvas size
-      canvas.width = 800;
-      canvas.height = 800;
+      // Set canvas size - make it square with proper dimensions
+      canvas.width = 1080;
+      canvas.height = 1080;
 
       // Create gradient background
-      const gradient = ctx.createRadialGradient(400, 400, 0, 400, 400, 400);
+      const gradient = ctx.createRadialGradient(540, 540, 0, 540, 540, 540);
       gradient.addColorStop(0, '#40bfab');
       gradient.addColorStop(1, '#77a6b8');
       ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 800, 800);
+      ctx.fillRect(0, 0, 1080, 1080);
 
-      // Draw user image in center (circular crop) - made bigger circle
+      // Draw user image in center (circular crop) - positioned higher to make room for text
       ctx.save();
       ctx.beginPath();
-      ctx.arc(400, 400, 300, 0, 2 * Math.PI); // increased from 250 to 300
+      ctx.arc(540, 450, 320, 0, 2 * Math.PI); // moved up from 540 to 450
       ctx.clip();
       
       // Calculate aspect ratio and draw image
       const aspectRatio = img.width / img.height;
       let drawWidth, drawHeight;
       if (aspectRatio > 1) {
-        drawHeight = 600; // increased from 500 to 600
+        drawHeight = 640;
         drawWidth = drawHeight * aspectRatio;
       } else {
-        drawWidth = 600; // increased from 500 to 600
+        drawWidth = 640;
         drawHeight = drawWidth / aspectRatio;
       }
       
-      ctx.drawImage(img, 400 - drawWidth/2, 400 - drawHeight/2, drawWidth, drawHeight);
+      ctx.drawImage(img, 540 - drawWidth/2, 450 - drawHeight/2, drawWidth, drawHeight);
       ctx.restore();
 
       // Add circular border
       ctx.beginPath();
-      ctx.arc(400, 400, 300, 0, 2 * Math.PI); // increased from 250 to 300
+      ctx.arc(540, 450, 320, 0, 2 * Math.PI);
       ctx.strokeStyle = '#f6ed98';
-      ctx.lineWidth = 8;
+      ctx.lineWidth = 10;
       ctx.stroke();
 
-      // Add text at bottom
+      // Add main company text at bottom with better spacing
       ctx.fillStyle = '#f6ed98';
-      ctx.font = 'bold 36px Arial';
+      ctx.font = 'bold 44px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText('GET UP AND GO KAYAKING', 400, 720);
+      ctx.fillText('GET UP AND GO KAYAKING', 540, 900);
 
-      // Add smaller text
-      ctx.font = 'bold 24px Arial';
-      ctx.fillText('AUSTIN\'S PREMIER WATER ADVENTURE', 400, 760);
-
-      // Add duck emojis positioned better to not overlap
-      ctx.font = '40px Arial';
-      ctx.fillText('🦆', 150, 720); // moved further left
-      ctx.fillText('🦆', 650, 720); // moved further right
-
-      // Add #enjoynature on the side
-      ctx.save();
-      ctx.translate(50, 400);
-      ctx.rotate(-Math.PI / 2);
+      // Add tagline text with proper spacing
       ctx.font = 'bold 28px Arial';
+      ctx.fillText('AUSTIN\'S PREMIER WATER ADVENTURE', 540, 950);
+
+      // Add decorative elements positioned to not overlap
+      ctx.font = '50px Arial';
+      ctx.fillText('🦆', 200, 900); // left side
+      ctx.fillText('🦆', 880, 900); // right side
+
+      // Add side hashtags with better positioning
+      ctx.save();
+      ctx.translate(80, 540);
+      ctx.rotate(-Math.PI / 2);
+      ctx.font = 'bold 32px Arial';
       ctx.fillStyle = '#f6ed98';
       ctx.textAlign = 'center';
       ctx.fillText('#ENJOYNATURE', 0, 0);
       ctx.restore();
 
-      // Add #enjoynature on the other side
       ctx.save();
-      ctx.translate(750, 400);
+      ctx.translate(1000, 540);
       ctx.rotate(Math.PI / 2);
-      ctx.font = 'bold 28px Arial';
+      ctx.font = 'bold 32px Arial';
       ctx.fillStyle = '#f6ed98';
       ctx.textAlign = 'center';
       ctx.fillText('#ENJOYNATURE', 0, 0);
@@ -189,7 +188,7 @@ const PhotoUpload = () => {
               </label>
             </div>
 
-            {/* Don't have a picture section */}
+            {/* Transform button */}
             {imagePreview && !processedImage && (
               <div className="bg-sunshine/20 p-4 rounded-lg border border-sunshine">
                 <p className="text-forest font-medium mb-3">

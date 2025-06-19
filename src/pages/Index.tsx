@@ -18,7 +18,7 @@ const Index = () => {
         <div className="text-center mb-6 md:mb-8">
           <div className="flex items-center justify-center mb-4 md:mb-6">
             <img 
-              src="/lovable-uploads/a0651e9b-f61e-4f77-969e-98303a85cf70.png" 
+              src="/lovable-uploads/7860e6ec-203a-4b28-b00c-4988892406a5.png" 
               alt="Get Up And Go Kayaking Logo" 
               className="h-40 md:h-56 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform"
               onClick={handleLogoClick}

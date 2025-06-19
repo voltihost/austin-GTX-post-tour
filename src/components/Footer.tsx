@@ -53,10 +53,11 @@ const Footer = () => {
 
   return (
     <div className="bg-gradient-to-r from-water-deep to-water-primary">
-      {/* Social Media Icons with Gradient Backgrounds */}
-      <div className="py-2">
+      {/* Social Media Icons - Clean Design */}
+      <div className="py-6">
         <div className="container mx-auto px-4">
-          <div className="flex justify-center items-center gap-4">
+          {/* Desktop: Horizontal Layout */}
+          <div className="hidden md:flex justify-center items-center gap-6">
             {socialLinks.map((social) => (
               <a
                 key={social.name}
@@ -64,28 +65,58 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={social.name}
-                className="w-10 h-10 bg-gradient-to-r from-water-primary to-sunshine hover:from-sunshine hover:to-water-primary transition-all rounded-lg flex items-center justify-center group border border-water-light shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="w-12 h-12 bg-white/10 hover:bg-white/20 transition-all rounded-lg flex items-center justify-center group border border-white/20 hover:border-white/40"
               >
                 {social.icon ? (
-                  <social.icon className="w-5 h-5 text-white" />
+                  <social.icon className="w-6 h-6 text-white" />
                 ) : social.logo ? (
                   <img 
                     src={social.logo} 
                     alt={social.name}
-                    className="w-5 h-5 object-contain filter brightness-0 invert"
+                    className="w-6 h-6 object-contain filter brightness-0 invert"
                   />
                 ) : (
-                  <span className="text-white text-base">
+                  <span className="text-white text-lg">
                     {social.emoji}
                   </span>
                 )}
               </a>
             ))}
           </div>
+
+          {/* Mobile: 2-Column Vertical Layout */}
+          <div className="md:hidden grid grid-cols-2 gap-3 max-w-xs mx-auto">
+            {socialLinks.map((social) => (
+              <a
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3 bg-white/10 hover:bg-white/20 transition-all rounded-lg border border-white/20 hover:border-white/40"
+              >
+                <div className="w-8 h-8 flex items-center justify-center">
+                  {social.icon ? (
+                    <social.icon className="w-5 h-5 text-white" />
+                  ) : social.logo ? (
+                    <img 
+                      src={social.logo} 
+                      alt={social.name}
+                      className="w-5 h-5 object-contain filter brightness-0 invert"
+                    />
+                  ) : (
+                    <span className="text-white text-base">
+                      {social.emoji}
+                    </span>
+                  )}
+                </div>
+                <span className="text-white text-sm font-medium">{social.name}</span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
       
-      {/* Voltihost Footer - Reduced height */}
+      {/* Voltihost Footer */}
       <div className="bg-black">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-center items-center">

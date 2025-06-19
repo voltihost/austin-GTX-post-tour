@@ -4,17 +4,15 @@ import React, { useState, useEffect } from 'react';
 const InteractivePaddles = () => {
   const [isJumping, setIsJumping] = useState(false);
   const [clickCount, setClickCount] = useState(0);
-  const [position, setPosition] = useState(20); // percentage from bottom
+  const [position, setPosition] = useState(20);
   const [velocity, setVelocity] = useState(0);
   const [showStreaks, setShowStreaks] = useState(false);
 
-  // Gravity and physics
   useEffect(() => {
     const gameLoop = setInterval(() => {
       setPosition(prev => {
         const newPos = Math.max(10, Math.min(90, prev + velocity));
         
-        // Reset count when hitting the floor
         if (newPos <= 10 && prev > 10) {
           setClickCount(0);
         }
@@ -22,7 +20,7 @@ const InteractivePaddles = () => {
         return newPos;
       });
       
-      setVelocity(prev => prev - 1.2); // stronger gravity for more responsive feel
+      setVelocity(prev => prev - 1.2);
     }, 50);
 
     return () => clearInterval(gameLoop);
@@ -31,14 +29,13 @@ const InteractivePaddles = () => {
   const handlePaddleClick = () => {
     setIsJumping(true);
     setClickCount(prev => prev + 1);
-    setVelocity(6); // stronger flap for better control
+    setVelocity(6);
     setShowStreaks(true);
     
-    // Reset jump animation and streaks - increased duration for better readability
     setTimeout(() => {
       setIsJumping(false);
       setShowStreaks(false);
-    }, 800); // Increased from 500ms to 800ms
+    }, 1200); // Increased duration for better visibility
   };
 
   const getRandomMessage = () => {
@@ -69,20 +66,20 @@ const InteractivePaddles = () => {
                 right: `${10 + i * 5}px`,
                 top: `${i * 4}px`,
                 animationDelay: `${i * 50}ms`,
-                animationDuration: '800ms' // Increased duration
+                animationDuration: '1200ms'
               }}
             />
           ))}
         </div>
       )}
 
-      {/* Speech bubble that appears after clicking - stays visible permanently with longer duration */}
+      {/* Speech bubble - now displays for 3 seconds */}
       {clickCount > 0 && (
         <div 
-          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[200px] z-50 pointer-events-none animate-in fade-in-0 slide-in-from-right-1 duration-700"
+          className="absolute right-0 bg-white/95 backdrop-blur-sm rounded-lg p-2 md:p-3 shadow-lg border-2 border-sunshine mb-3 max-w-[140px] md:max-w-[200px] z-50 pointer-events-none animate-in fade-in-0 slide-in-from-right-1"
           style={{ 
             bottom: `${position + 15}%`,
-            animationDuration: '1200ms' // Longer display animation
+            animation: 'fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 2.5s forwards'
           }}
         >
           <p className="text-forest text-xs md:text-sm font-medium leading-tight">{getRandomMessage()}</p>
@@ -90,7 +87,7 @@ const InteractivePaddles = () => {
         </div>
       )}
       
-      {/* Interactive Paddle Emoji - Made bigger and more responsive */}
+      {/* Interactive Paddle Emoji */}
       <div 
         onClick={handlePaddleClick}
         className={`absolute right-0 cursor-pointer transition-all duration-200 hover:scale-110 pointer-events-auto text-6xl md:text-7xl select-none ${
@@ -111,6 +108,17 @@ const InteractivePaddles = () => {
           {clickCount}
         </div>
       )}
+      
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
+        }
+      `}</style>
     </div>
   );
 };
