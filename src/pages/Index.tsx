@@ -1,31 +1,22 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
 import Footer from '@/components/Footer';
 import InteractivePaddles from '@/components/InteractivePaddles';
 import TippingCarousel from '@/components/TippingCarousel';
-
 const Index = () => {
   const handleLogoClick = () => {
     window.open('https://getupandgokayaking.com/locations/texas/austin/', '_blank');
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-water-primary via-water-light to-water-primary">
+  return <div className="min-h-screen bg-gradient-to-br from-water-primary via-water-light to-water-primary">
       {/* Header with Logo */}
       <div className="w-full max-w-7xl mx-auto px-4 py-6 md:py-8">
         <div className="text-center mb-6 md:mb-8">
           <div className="flex items-center justify-center mb-4 md:mb-6">
-            <img 
-              src="/lovable-uploads/7860e6ec-203a-4b28-b00c-4988892406a5.png" 
-              alt="Get Up And Go Kayaking Logo" 
-              className="h-40 md:h-56 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform"
-              onClick={handleLogoClick}
-            />
+            <img src="/lovable-uploads/7860e6ec-203a-4b28-b00c-4988892406a5.png" alt="Get Up And Go Kayaking Logo" className="h-40 md:h-56 w-auto drop-shadow-xl cursor-pointer hover:scale-105 transition-transform" onClick={handleLogoClick} />
           </div>
           <div className="max-w-2xl mx-auto px-4">
-            <h1 className="text-2xl md:text-4xl font-bold text-white mb-6 md:mb-8 leading-tight">
+            <h1 className="text-2xl md:text-4xl font-bold mb-6 md:mb-8 leading-tight text-zinc-950">
               Thank you for choosing Austin's premier water adventure experience! 🌊
             </h1>
           </div>
@@ -85,8 +76,6 @@ const Index = () => {
 
       {/* Footer */}
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
